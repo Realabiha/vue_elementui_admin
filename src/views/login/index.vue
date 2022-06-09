@@ -130,7 +130,8 @@ export default {
             const routes = {
               admin: '/layout/welcome',
               user: '/layout/welcome',
-              lawyer: '/layout/welcome'
+              lawyer: '/layout/welcome',
+              vistor: '/layout/welcome'
             }
             this.$router.push({path: routes[userInfo.role]})
             .catch(err => console.log(err, 'err'))
