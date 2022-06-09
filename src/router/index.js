@@ -33,7 +33,7 @@ export const constantRoute = [
 export const menuRoute = [
   {
     meta: {
-      auth: ['admin', 'user', 'lawyer'], 
+      auth: ['admin', 'user', 'lawyer', 'vistor'], 
       icon: 'el-icon-search',
       title: '一级菜单'
     },
