@@ -28,7 +28,7 @@ import {deepTrickClone, deepClone} from '@utils/tools'
     }
     return withRole
   }
-  // JSON拷贝不了函数  使用递归拷贝
+  // JSON拷贝有问题？  使用递归拷贝
   return filter(deepClone(menuRoute))
 }
 export default function(store, router){
