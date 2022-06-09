@@ -23,13 +23,13 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-        <el-tooltip class="item" effect="dark" content="账号: admin或user或layer; 密码: 随意非空" placement="top-start">
+        <el-tooltip class="item" effect="dark" content="账号: admin或user或lawyer; 密码: 随意非空" placement="top-start">
             <el-button>账号</el-button>
         </el-tooltip>
       </el-form-item>
     </el-form>
   </el-col>
-  <copy-right></copy-right>
+  <!-- <copy-right></copy-right> -->
 </div>
 </template>
 <style lang="scss" scoped>
@@ -39,6 +39,7 @@
     height: 100%;
     align-items: center;
     background-color: #efefef;
+
   }
 </style>
 <script>
@@ -46,6 +47,7 @@ import CopyRight from '@components/copyright'
 import constant from '../../constant'
 import {SET_USERINFO_ACTION} from '@store/userInfo/type'
 import {SET_DYNAMICROUTE_ACTION} from '@store/route/type'
+
 export default {
   name: 'Login',
   components: {
@@ -124,12 +126,17 @@ export default {
 
           await this.$store.dispatch(SET_USERINFO_ACTION, userInfo)
 
-          // await this.$store.dispatch(SET_DYNAMICROUTE_ACTION, userInfo)
+          const redirect = function(){
+            const routes = {
+              admin: '/layout/caseList',
+              user: '/layout/caseList',
+              lawyer: '/layout/caseHandle'
+            }
+            this.$router.push({path: routes[userInfo.role]})
+            // .catch(err => console.log(err, 'err'))
+          }
 
-          if(userInfo.role == 'lawyer')
-          this.$router.push({path: '/layout/caseHandle'}).catch(err => console.log(err, 'err'))
-          else
-          this.$router.push({path: '/layout/caseList'}).catch(err => console.log(err, 'err'))
+          redirect.call(this)
 
         } else {
           this.$notify({

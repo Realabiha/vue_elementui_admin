@@ -11,7 +11,7 @@
       @close="handleClose"
       :default-active="defaultActive"
     >
-      <m-navigator :routes="routes" prevPath="/layout/"></m-navigator>        
+      <m-navigator :routes="routes" prevPath=""></m-navigator>        
     </el-menu>
   </el-row>
 </template>
@@ -42,7 +42,7 @@ export default {
   data(){
     return {
       userInfo: this.$store.state.user.userInfo,
-      defaultActive: formatGetSessionStorage('defaultActiveRoute') || '/layout/caseList'
+      defaultActive: formatGetSessionStorage('defaultActiveRoute')
     }
   },
   components: {
@@ -51,7 +51,7 @@ export default {
   computed: {
     routes(){
       const {dynamicRoute} = this.$store.getters
-      return dynamicRoute[0].children.filter(route => route.meta.title)
+      return dynamicRoute.filter(route => route.meta.title)
     }
   },
   watch: {

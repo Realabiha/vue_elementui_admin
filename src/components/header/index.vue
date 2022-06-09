@@ -13,10 +13,10 @@
     width: 100%;
     height: 64px;
     background-color: #fff;
-    background-image: url("@imgs/logo.png");
-    background-position: 24px center;
+    background-image: url("@imgs/logo.svg");
+    background-position: 10px center;
     background-repeat: no-repeat;
-    background-size: 104px 28px;
+    background-size: 104px 50px;
   }
 </style>
 <script>

@@ -13,7 +13,7 @@ const plugins = [
   new HtmlWebpackPlugin({
     template: './public/index.html',
     title: TITLE,
-    favicon: './public/favicon.png'
+    favicon: './public/favicon.svg'
   }),
   new VueLoaderPlugin(),
   new MiniCssExtractPlugin({
@@ -75,7 +75,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
-        type: 'asset/resource',
+        type: 'asset',
         parser: {
           dataUrlCondition: {
             maxSize: 4 * 1024

@@ -43,7 +43,7 @@
     </el-table>
     <div style="margin-top: 20px">
       <el-button type="primary">
-        <router-link to="/layout/role/addRole" tag="span" replace>新增</router-link>
+        <router-link to="/layout/role/addRole" tag="span">新增</router-link>
       </el-button>
     </div>
     <router-view></router-view>
@@ -81,6 +81,9 @@
         filterTag(value, row){
           return row.name == value
         }
+      },
+      beforeRouteLeave(to, from, next){
+        if(to.path !== from.path) next()
       }
     }
   </script>

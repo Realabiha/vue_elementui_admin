@@ -1,4 +1,4 @@
 module.exports = {
-  TITLE: '智慧诉讼系统',
+  TITLE: 'VUE_ELEMENTUI_ADMIN',
   CONFIRM_TEXT: '确认此操作吗？'
 }

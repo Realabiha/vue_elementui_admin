@@ -2,10 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/login'
 import useRouterBeforeEach from './useRouterBeforeEach'
+import useRouterOnError from './useRouterOnError'
 import withStore from '../store/withStore'
 
 /**
- * meta标签代表动态路由  title属性代表menu菜单 auth属性代表权限级别
+ * meta 路由信息  title 菜单名字 auth 权限级别 icon 菜单图标
  * 
  * admin 超管可查看全部页面
  * user 管理员可查看对应页面
@@ -33,18 +34,26 @@ export const menuRoute = [
   {
     meta: {
       auth: ['admin', 'user', 'lawyer'], 
-      icon: 'el-icon-search', 
-      title: '首页'
+      icon: 'el-icon-search',
+      title: '一级菜单'
     },
     path: '/layout/',
     component: _ => import('../components/layout'),
-    redirect: '/layout/caseList',
     children: [
+      {
+        meta: { 
+          auth: ['admin', 'user', 'lawyer'], 
+          icon: 'el-icon-help',
+          title: '首页' 
+        },  
+        path: 'welcome',
+        component: _ => import('../components/welcome'),
+      },
       {
         meta: { 
           auth: ['admin', 'user'], 
           icon: 'el-icon-user',
-          title: '案件列表' 
+          title: '列表' 
         },  
         path: 'caseList',
         component: _ => import('../views/caseList'),
@@ -58,113 +67,52 @@ export const menuRoute = [
       },
       {
         meta: { 
-          auth: ['lawyer'], 
-          icon: 'el-icon-refresh',
-          title: '案件处理'
+          auth: ['admin'],
+          icon: 'el-icon-setting',
+          title: '权限' 
         },
-        path: 'caseHandle',
-        component: _ => import('../views/caseHandle'),
+        path: 'role/',
+        component: _ => import('../views/role'),
+        redirect: '/layout/role/roleControl',
+        children: [
+          {
+            meta: { 
+              auth: ['admin'],
+              title: '权限列表' 
+            },
+            path: 'roleControl',
+            component: _ => import('../views/roleControl'),
+            beforeEnter(to, from, next){
+              if(to.path !== from.path) next()
+              console.log('beforeEnter')
+            }
+          },
+          {
+            meta: { 
+              auth: ['admin'],
+              title: '新增帐户' 
+            },
+            path: 'addRole',
+            component: _ => import('../views/addRole'),
+          }
+        ]
       },
       {
-        meta: { 
-          auth: ['admin'], 
-          icon: 'el-icon-finished',
-          title: '案件审批'
+        meta: {
+          auth: ['admin', 'user', 'lawyer'], 
         },
-        path: 'caseApprove',
-        component: _ => import('../views/caseApprove'),
-      },
-      // {
-      //   meta: { 
-      //     auth: ['admin', 'user'],
-      //     icon: 'el-icon-finished',
-      //     title: '律师列表'
-      //   },
-      //   path: 'lawyerList',
-      //   component: _ => import('../views/lawyerList'),
-      // },
-      {
-        meta: { 
-          auth: ['lawyer'],
-        },
-        path: 'logDetail',
-        component: _ => import('../views/logDetail')
+        path: '404',
+        component: () => import('../components/404')
       },
       {
-        meta: { 
-          auth: ['lawyer'],
+        meta: {
+          auth: ['admin', 'user', 'lawyer'], 
         },
-        path: 'caseEdit',
-        component: _ => import('../views/caseEdit')
-      },
-      {
-        meta: { 
-          auth: ['admin', 'lawyer'],
-          icon: 'el-icon-bell',
-        },
-        path: 'billList',
-        component: _ => import('../views/billList')
-      },
-      {
-        meta: { 
-          auth: ['admin', 'lawyer'],
-          icon: 'el-icon-help',
-        },
-        path: 'repayPlan',
-        component: _ => import('../views/repayPlan')
-      },
-      // {
-      //   meta: { 
-      //     auth: ['user', 'lawyer', 'vistor'], 
-      //     icon: 'el-icon-receiving',
-      //     title: '日志列表'
-      //   },
-      //   path: 'logList',
-      //   component: _ => import('../views/logList')
-      // },
-      // {
-      //   meta: { 
-      //     auth: [],
-      //     icon: 'el-icon-setting',
-      //     title: '权限控制' 
-      //   },
-      //   path: 'role/',
-      //   redirect: 'role/roleControl',
-      //   component: _ => import('../views/role'),
-      //   children: [
-      //     {
-      //     meta: { 
-      //       auth: [],
-      //       title: '权限列表' 
-      //     },
-      //     path: 'roleControl',
-      //     component: _ => import('../views/roleControl')},
-      //     {
-      //       meta: { 
-      //         auth: [],
-      //         title: '新增帐户' 
-      //       },
-      //       path: 'addRole',
-      //       component: _ => import('../views/addRole'),
-      //     }
-      //   ]
-      // },
+        path: '*',
+        redirect: '404'
+      }
     ]
-  },
-  {
-    meta: {
-      auth: ['admin', 'user', 'lawyer'], 
-    },
-    path: '/404',
-    component: () => import('../components/404')
-  },
-  {
-    meta: {
-      auth: ['admin', 'user', 'lawyer'], 
-    },
-    path: '*',
-    redirect: '/404'
-  },
+  }
 ]
 
 // 先挂载通用路由 登陆后挂载权限路由
@@ -172,6 +120,7 @@ const routes = [...constantRoute]
 const router = new VueRouter({routes})
 
 Vue.use(VueRouter)
+
 
 withStore(useRouterBeforeEach)(router)
 

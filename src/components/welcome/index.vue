@@ -1,11 +1,13 @@
-// 案件详情
 <template>
-  <h3>详情</h3>
+  <h1>hello world</h1>
 </template>
 <style lang="scss" scoped>
+
 </style>
 <script>
 export default {
-  name: 'CaseDetail'
+  name: 'Welcome',
+  props: {
+  }
 }
 </script>

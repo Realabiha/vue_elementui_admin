@@ -33,13 +33,14 @@ import {deepTrickClone, deepClone} from '@utils/tools'
 }
 export default function(store, router){
   // 在beforeEach钩子执行前获取vuex中的状态?
-  router.beforeEach((to, from, next) => {
-    
+  router.beforeEach(async (to, from, next) => {
+
+
+    console.log('beforeEach')   
     // 用户信息
     const {userInfo = null} = store.state.user
     
     // 动态路由
-    // await store.dispatch(SET_DYNAMICROUTE_ACTION, userInfo)
     const {dynamicRoute = []} = store.getters
 
     // 登录信息
@@ -63,11 +64,14 @@ export default function(store, router){
     if(to.matched.length < 1 && dynamicRoute.length){
       // 替换当前导航(会重新触发beforeEach)，此时addRoutes添加完成
       dynamicRoute.forEach(route => router.addRoute(route))
-      
-      return router.replace(to)
+      // return router.replace(to)
+      router.push({...to, replace: true})
+      return next()
     }
 
     // addRoutes添加完成放行
+
+
     return next()
   })
 }

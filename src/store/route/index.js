@@ -55,7 +55,8 @@ export default {
     }
   },
   actions: {
-    [SET_DYNAMICROUTE_ACTION](context, payload){
+    async [SET_DYNAMICROUTE_ACTION](context, payload){
+      await 1
       const dynamicRoute = withRole(payload)
       router.addRoutes(dynamicRoute)  
       // 有警告建议使用addRoute

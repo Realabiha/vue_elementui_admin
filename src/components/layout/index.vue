@@ -27,13 +27,13 @@
       <template #main>
           <div class="sykj-content_right">
             <div class="sykj-breadcrumb_wrap">
-              <div @click="goBack">
+              <div @click="$router.back()">
                 <i class="el-icon-back"></i>
                 <span style="font-weight: 600">返回&nbsp;&nbsp; | &nbsp;&nbsp;</span>
               </div>
               <el-breadcrumb style="font-size: 16px" separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item 
-                  v-for="route in breadList" 
+                  v-for="route in breadList.slice(1)" 
                   :key="route.path"
                   replace 
                   :to="{path: route.path}"
@@ -108,9 +108,10 @@ export default {
     }
   },
   methods: {
-    goBack(){
-      this.$router.go(-1)
-    },
+    // goBack(){
+    //   // this.$router.go(-1)
+    //   this.$router.back()
+    // },
     onExit(){
       this.$store.dispatch(DEL_USERINFO_ACTION, null)
       // this.$store.dispatch(DEL_DYNAMICROUTE_ACTION, [])
