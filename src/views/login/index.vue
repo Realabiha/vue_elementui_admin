@@ -128,16 +128,15 @@ export default {
 
           const redirect = function(){
             const routes = {
-              admin: '/layout/caseList',
-              user: '/layout/caseList',
-              lawyer: '/layout/caseHandle'
+              admin: '/layout/welcome',
+              user: '/layout/welcome',
+              lawyer: '/layout/welcome'
             }
             this.$router.push({path: routes[userInfo.role]})
-            // .catch(err => console.log(err, 'err'))
+            .catch(err => console.log(err, 'err'))
           }
 
           redirect.call(this)
-
         } else {
           this.$notify({
           title: '提示',
