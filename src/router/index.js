@@ -42,7 +42,7 @@ export const menuRoute = [
     children: [
       {
         meta: { 
-          auth: ['admin', 'user', 'lawyer'], 
+          auth: ['admin', 'user', 'lawyer', 'vistor'], 
           icon: 'el-icon-help',
           title: '首页' 
         },  
