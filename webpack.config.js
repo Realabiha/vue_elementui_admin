@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const {TITLE} = require('./src/constant')
 
 const path = require('path');
-const argv = process.env.npm_lifecycle_script
+
 // 通用插件
 const plugins = [
   new HtmlWebpackPlugin({
@@ -17,11 +17,10 @@ const plugins = [
   new VueLoaderPlugin(),
   new MiniCssExtractPlugin({
     filename: 'css/[name].css'
-  })
+  }),
+  new WebpackBundleAnalyzerPlugin({openAnalyzer: false})
 ]
 
-// report参数
-argv.includes('report') && plugins.push(new WebpackBundleAnalyzerPlugin({openAnalyzer: false}))
 
 module.exports = {
   entry: './src/index.js',
