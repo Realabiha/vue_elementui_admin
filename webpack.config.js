@@ -17,11 +17,9 @@ const plugins = [
   new VueLoaderPlugin(),
   new MiniCssExtractPlugin({
     filename: 'css/[name].css'
-  })
+  }),
+  new WebpackBundleAnalyzerPlugin({openAnalyzer: false})
 ]
-
-// report参数
-argv.includes('report') && plugins.push(new WebpackBundleAnalyzerPlugin({openAnalyzer: false}))
 
 module.exports = {
   entry: './src/index.js',
