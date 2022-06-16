@@ -6,8 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const {TITLE} = require('./src/constant')
 
 const path = require('path');
-const argv = process.env.npm_config_argv
-
+const argv = process.env.npm_lifecycle_script
 // 通用插件
 const plugins = [
   new HtmlWebpackPlugin({
@@ -18,7 +17,7 @@ const plugins = [
   new VueLoaderPlugin(),
   new MiniCssExtractPlugin({
     filename: 'css/[name].css'
-  }),
+  })
 ]
 
 // report参数
@@ -29,7 +28,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].js',
-    clean: true
+    clean: true,
   },
   resolve: {
     alias: {
@@ -96,7 +95,7 @@ module.exports = {
   devServer: {
     port: 8680,
     compress: true,
-    hot: true,
+    // hot: true,
     proxy: {}
   },
   optimization: {

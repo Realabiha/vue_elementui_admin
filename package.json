@@ -44,6 +44,7 @@
     "webpack-dev-server": "^4.9.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.17.9",
     "@babel/runtime-corejs3": "^7.17.9",
     "axios": "^0.27.2",

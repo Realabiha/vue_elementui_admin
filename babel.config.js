@@ -1,6 +1,19 @@
 module.exports = {
-  presets: ['@babel/preset-env'],
+  presets: [
+    [
+      '@babel/preset-env', 
+      {
+        // 按需加载core-js polyfill
+        "useBuiltIns": 'usage',
+        // core-js@3
+        'corejs': '3',
+        "targets": "defaults, ie > 10" 
+        // 'modules': 'commonjs',
+      }
+    ]
+  ],
   plugins:  [
+    '@babel/plugin-transform-modules-commonjs',
     // [
     //   "component",
     //   {
@@ -21,7 +34,8 @@ module.exports = {
     [
       "@babel/plugin-transform-runtime",
       {
-        "builtins": "usage",
+        'builtins': 'usage',
+        // @babel/runtime-corejs@3
         "corejs": 3
       }
     ]

@@ -53,14 +53,22 @@ const useElementui = function(component){
   Vue.use(component)
 }
 
-Vue.use(Loading.directive)
-
 // elementui 组件注册
 eleComponents.forEach(useElementui)
 
-Vue.prototype.$loading = Loading.service
-Vue.prototype.$notify = Notification
-Vue.prototype.$msgbox = MessageBox;
-Vue.prototype.$alert = MessageBox.alert;
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$prompt = MessageBox.prompt;
+
+const {service, directive} = Loading
+const {alert, confirm, prompt} = MessageBox
+const {info, success, warning} = Notification
+
+Vue.use(directive)
+Vue.prototype.$loading = service
+
+Vue.prototype.$info = info
+Vue.prototype.$success = success
+Vue.prototype.$warning = warning
+
+
+Vue.prototype.$alert = alert
+Vue.prototype.$confirm = confirm
+Vue.prototype.$prompt = prompt
