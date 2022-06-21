@@ -65,8 +65,9 @@ export default function(store, router){
       // 替换当前导航(会重新触发beforeEach)，此时addRoutes添加完成
       dynamicRoute.forEach(route => router.addRoute(route))
       // return router.replace(to)
-      router.push({...to, replace: true})
-      return next()
+      // router.push({...to, replace: true})
+      // return next()
+      return next({...to, replace: true})
     }
 
     // addRoutes添加完成放行
