@@ -22,114 +22,117 @@ const plugins = [
 ]
 
 
-module.exports = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].js',
-    clean: true,
-  },
-  resolve: {
-    alias: {
-      '@imgs': path.resolve(__dirname, 'src/assets/imgs'),
-      '@css': path.resolve(__dirname, 'src/assets/css'),
-      '@js': path.resolve(__dirname, 'src/assets/js'),
-      '@utils': path.resolve(__dirname, 'src/utils'),
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@filters': path.resolve(__dirname, 'src/filters'),
-      '@directives': path.resolve(__dirname, 'src/directives'),
-      '@store': path.resolve(__dirname, 'src/store')
+module.exports = (options) => {
+  return {
+    entry: './src/index.js',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'js/[name].js',
+      clean: true,
     },
-    extensions: ['.js', '.scss', '.css', '.vue']
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: ['babel-loader'],
-        include: /src/
+    resolve: {
+      alias: {
+        '@imgs': path.resolve(__dirname, 'src/assets/imgs'),
+        '@css': path.resolve(__dirname, 'src/assets/css'),
+        '@js': path.resolve(__dirname, 'src/assets/js'),
+        '@utils': path.resolve(__dirname, 'src/utils'),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@filters': path.resolve(__dirname, 'src/filters'),
+        '@directives': path.resolve(__dirname, 'src/directives'),
+        '@store': path.resolve(__dirname, 'src/store')
       },
-      {
-        test: /\.css$/,
-        use: [
-          // MiniCssExtractPlugin.loader,
-          'style-loader', 
-          'css-loader'
-        ]
-      },
-      {
-        test: /\.s(c|a)ss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          // 'style-loader', 
-          'css-loader', 
-          {
-            loader: 'sass-loader',
-            options: {
-              additionalData: '@import \'@css/common.scss\';',
+      extensions: ['.js', '.scss', '.css', '.vue']
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          use: ['babel-loader'],
+          include: /src/
+        },
+        {
+          test: /\.css$/,
+          use: [
+            // MiniCssExtractPlugin.loader,
+            'style-loader', 
+            'css-loader'
+          ]
+        },
+        {
+          test: /\.s(c|a)ss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            // 'style-loader', 
+            'css-loader', 
+            {
+              loader: 'sass-loader',
+              options: {
+                additionalData: '@import \'@css/common.scss\';',
+              }
             }
-          }
-        ]  
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
-        type: 'asset',
-        parser: {
-          dataUrlCondition: {
-            maxSize: 4 * 1024
+          ]  
+        },
+        {
+          test: /\.(png|jpg|jpeg|gif|svg)$/,
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              maxSize: 4 * 1024
+            }
+          },
+          generator: {
+            filename: 'imgs/[name][ext]'
           }
         },
-        generator: {
-          filename: 'imgs/[name][ext]'
+        {
+          test: /\.vue$/,
+          use: 'vue-loader',
+          include: /src/
         }
-      },
-      {
-        test: /\.vue$/,
-        use: 'vue-loader',
-        include: /src/
-      }
-    ]
-  },
-  plugins,
-  devServer: {
-    port: 8680,
-    compress: true,
-    // hot: true,
-    proxy: {}
-  },
-  optimization: {
-    runtimeChunk: {
-      name: 'runtime'
+      ]
     },
-    splitChunks: {
-      chunks: 'all',
-      name: 'common',
-      minChunks: 1,
-      cacheGroups: {
-        vue: {
-          test: /[\\/]vue[\\/]/,
-          name: 'vue',
-          priority: 10
-        },
-        vuex: {
-          test: /[\\/]vuex[\\/]/,
-          name: 'vuex',
-          priority: 10
-        },
-        vuex: {
-          test: /[\\/]vue-router[\\/]/,
-          name: 'vue-router',
-          priority: 10
-        },
-        'element-ui': {
-          test: /[\\/]element-ui[\\/]/,
-          name: 'element-ui',
-          priority: 10
+    plugins,
+    devServer: {
+      port: 8680,
+      compress: true,
+      // hot: true,
+      proxy: {}
+    },
+    optimization: {
+      runtimeChunk: {
+        name: 'runtime'
+      },
+      splitChunks: {
+        chunks: 'all',
+        name: 'common',
+        minChunks: 1,
+        cacheGroups: {
+          vue: {
+            test: /[\\/]vue[\\/]/,
+            name: 'vue',
+            priority: 10
+          },
+          vuex: {
+            test: /[\\/]vuex[\\/]/,
+            name: 'vuex',
+            priority: 10
+          },
+          vuex: {
+            test: /[\\/]vue-router[\\/]/,
+            name: 'vue-router',
+            priority: 10
+          },
+          'element-ui': {
+            test: /[\\/]element-ui[\\/]/,
+            name: 'element-ui',
+            priority: 10
+          }
         }
       }
-    }
-  },
-  cache: {
-    type: 'filesystem'
+    },
+    cache: {
+      type: 'filesystem'
+    },
+    devtool: options.mode == 'development' ? 'cheap-source-map' : false
   }
 }
