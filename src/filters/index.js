@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import {typeOf} from '@utils/tools'
-export const desensitization = function(data){
-  const isString = typeOf(data) == 'String'
-  if(!isString) return ''
-  const replace = data.slice(3, -3)
-  return data.replace(replace, '****')
+import desensitization from './desensitization'
+
+
+const useFilter = function(name, formatter){
+  if(typeof formatter != 'function') throw Error(`formatter should be function get ${typeof formatter}`)
+  Vue.filter(name, formatter)
 }
 
-Vue.directive('desensitization', desensitization)
+useFilter('desensitization', desensitization)
