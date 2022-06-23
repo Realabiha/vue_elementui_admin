@@ -193,3 +193,84 @@ class Axios{
 }
 
 console.log(new Axios())
+
+
+class Watcher{
+  constructor(vm, exporfun, cb){
+    this.vm = vm
+    this.value = this.get()
+    this.cb = cb
+    this.getter = exporfun
+  }
+  get(){
+    window.target = this
+    const value = this.getter()
+    window.target = null
+    return value
+  }
+  notify(){
+    const old = this.value
+    this.value = this.get()
+    this.cb.call(this.vm, this.value, old)
+  }
+}
+
+class Dep{
+  constructor(){
+    this.cbs = []
+  }
+  add(){
+    if(window.target){
+      this.cbs.push(window.target)
+    }
+  }
+  remove(cb){
+    const index = this.cbs.findIndex(cb => cb == cb)
+    this.cbs.splice(index, 1)
+  }
+  notify(){
+    const cbs = this.cbs.slice(0)
+    cbs.forEach(watcher => {
+      watcher.notify()
+    })
+  }
+}
+
+
+class Observer{
+  constructor(data){
+    this.observe(data)
+  }
+  observe(data){
+    const reactive = function(data){
+      Object.keys(data).forEach(key => {
+        let val = data[key]
+        if(typeof val == 'object'){
+          reactive(val)
+        }else{
+          const dep = new Dep()
+          Object.defineProperty(data, key, {
+            get(){
+              // 收集
+              if(window.target) dep.add(window.target)
+              return val
+            },
+            set(value){
+              // 更新
+              dep.notify()
+              val = value
+            }
+          })
+        }
+      })
+    }
+    reactive(data)
+  }
+}
+const test = {a: 1, b: {c: 2}}
+
+new Observer(test)
+
+test.a
+test.a = 2
+console.log(test.a)
