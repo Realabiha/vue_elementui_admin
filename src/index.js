@@ -9,7 +9,8 @@ import '@js/elementui'
 import '@js/resize'
 // 全局filters 注册
 import './filters'
-
+// 全局directives 注册
+import './directives'
 
 new Vue({
   router,

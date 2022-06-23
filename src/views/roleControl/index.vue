@@ -28,7 +28,7 @@
       <template slot-scope="scope">
         <el-tag
           :type="scope.row.name === 'admin' ? 'primary' : (scope.row.name === 'user' ? 'success': 'info')"
-          disable-transitions>{{scope.row.address}}</el-tag>
+          disable-transitions>{{scope.row.address | desensitization}}</el-tag>
       </template>
       </el-table-column>
       <el-table-column label="操作">
