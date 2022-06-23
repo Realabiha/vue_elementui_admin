@@ -1,3 +1,4 @@
+const {DefinePlugin} = require('webpack')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
@@ -22,7 +23,9 @@ const plugins = [
 ]
 
 
-module.exports = (options) => {
+
+
+module.exports = (env, options) => {
   return {
     entry: './src/index.js',
     output: {
@@ -91,12 +94,18 @@ module.exports = (options) => {
         }
       ]
     },
-    plugins,
+    plugins: [new DefinePlugin({
+      NODE_ENV: JSON.stringify(options.mode)
+    }), ...plugins], 
     devServer: {
       port: 8680,
       compress: true,
       // hot: true,
-      proxy: {}
+      proxy: {
+        '/api': {
+          rewrite: {'/api': ''}
+        }
+      }
     },
     optimization: {
       runtimeChunk: {
