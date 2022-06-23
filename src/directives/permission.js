@@ -8,7 +8,7 @@ export default function(){
         inserted(el, binding){
             const {role} = store.state.user.userInfo
             const {value} = binding
-            const hasPermission = value == admin || value == role
+            const hasPermission = role == admin || role == value
             if(!hasPermission){
                 el.style.display = 'none'
             }
