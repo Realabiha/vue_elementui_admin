@@ -137,6 +137,11 @@ export default {
             .catch(err => console.log(err, 'err'))
           }
 
+          // token过期登录后重定向到过期页
+          const path = this.$route.query.redirect
+          if(path)
+          return this.$router.replace({path})
+          // 正常登录跳转
           redirect.call(this)
         } else {
           this.$notify({
