@@ -67,6 +67,9 @@ export default function(store, router){
       // return router.replace(to)
       // router.push({...to, replace: true})
       // return next()
+
+      router.options.routes.push(...dynamicRoute)
+
       return next({...to, replace: true})
     }
 
