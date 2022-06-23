@@ -242,7 +242,12 @@ class Observer{
     this.observe(data)
   }
   observe(data){
-    const reactive = function(data){
+    const reactive = (data) => {
+      Object.defineProperty(data, '__ob__', {
+        enumerable: false,
+        configurable: false,
+        value: this
+      })
       Object.keys(data).forEach(key => {
         let val = data[key]
         if(typeof val == 'object'){
@@ -250,6 +255,8 @@ class Observer{
         }else{
           const dep = new Dep()
           Object.defineProperty(data, key, {
+            enumerable: true,
+            configurable: true,
             get(){
               // 收集
               if(window.target) dep.add(window.target)
@@ -273,4 +280,31 @@ new Observer(test)
 
 test.a
 test.a = 2
-console.log(test.a)
+console.log(test)
+
+
+// 挂载
+Vue.prototype.$mount = function(el){
+  el = el && document ? document.querySelector(el) : null
+  return mountComponent(this, el)
+}
+
+let updateComponent
+
+function mountComponent(vm, el){
+  vm.callHook(vm, 'beforeMount')
+  updateComponent = function(){
+    vm.update(vm.render, function(){
+      callHook(vm, 'updated')
+    })
+  }
+  if(vm.isMounted){
+    callHook(vm, 'mounted')
+  }
+  
+}
+new Watcher(vm, updateComponent, function(){
+  if(vm.isMounted){
+    callHook(vm, 'beforeUpdate')
+  }
+})
