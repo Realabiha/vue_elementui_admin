@@ -1,8 +1,8 @@
 
 // 路由全局钩子拦截
-import {SET_DYNAMICROUTE_ACTION} from '@store/route/type'
+import {SET_DYNAMICROUTE_ACTION} from '../store/route/type'
 import router, {menuRoute} from '../router'
-import {deepTrickClone, deepClone} from '@utils/tools'
+import {deepTrickClone, deepClone} from '../utils/tools'
 
 /**
  * @description: 依据角色筛选相应权限

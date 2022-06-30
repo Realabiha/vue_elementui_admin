@@ -6,8 +6,8 @@ import {
   DEL_DYNAMICROUTE_ACTION
 } from './type'
 import router, {menuRoute} from '../../router'
-import * as storage from '@utils/storage'
-import {deepTrickClone, deepClone} from '@utils/tools'
+import * as storage from '../../utils/storage'
+import {deepTrickClone, deepClone} from '../../utils/tools'
 
 
 /**

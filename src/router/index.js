@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/login'
+import Login from '../views/login/index'
 import useRouterBeforeEach from './useRouterBeforeEach'
 import useRouterOnError from './useRouterOnError'
 import withStore from '../store/withStore'
