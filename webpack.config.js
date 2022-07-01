@@ -35,14 +35,14 @@ module.exports = (env, options) => {
     },
     resolve: {
       alias: {
-        '@imgs': path.resolve(__dirname, 'src/assets/imgs'),
-        '@css': path.resolve(__dirname, 'src/assets/css'),
-        '@js': path.resolve(__dirname, 'src/assets/js'),
-        '@utils': path.resolve(__dirname, 'src/utils'),
-        '@components': path.resolve(__dirname, 'src/components'),
-        '@filters': path.resolve(__dirname, 'src/filters'),
-        '@directives': path.resolve(__dirname, 'src/directives'),
-        '@store': path.resolve(__dirname, 'src/store')
+        '@/imgs': path.resolve(__dirname, 'src/assets/imgs'),
+        '@/css': path.resolve(__dirname, 'src/assets/css'),
+        '@/js': path.resolve(__dirname, 'src/assets/js'),
+        '@/utils': path.resolve(__dirname, 'src/utils'),
+        '@/components': path.resolve(__dirname, 'src/components'),
+        '@/filters': path.resolve(__dirname, 'src/filters'),
+        '@/directives': path.resolve(__dirname, 'src/directives'),
+        '@/store': path.resolve(__dirname, 'src/store')
       },
       extensions: ['.js', '.scss', '.css', '.vue']
     },
@@ -70,7 +70,7 @@ module.exports = (env, options) => {
             {
               loader: 'sass-loader',
               options: {
-                additionalData: '@import \'@css/common.scss\';',
+                additionalData: '@import \'@/css/common.scss\';',
               }
             }
           ]  
