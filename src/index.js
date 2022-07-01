@@ -4,9 +4,9 @@ import router from './router'
 import store from './store'
 
 // elementui 组件注册
-import '@js/elementui'
+import '@/js/elementui'
 // resize事件
-import '@js/resize'
+import '@/js/resize'
 // 全局filters 注册
 import './filters'
 // 全局directives 注册

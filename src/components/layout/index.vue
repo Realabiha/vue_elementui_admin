@@ -79,9 +79,9 @@
 <script>
 import Header from '../header'
 import Content from '../content'
-import {DEL_USERINFO_ACTION} from '@store/userInfo/type'
-import {DEL_DYNAMICROUTE_ACTION} from '@store/route/type'
-import {removeSessionStorage} from '@utils/storage'
+import {DEL_USERINFO_ACTION} from '@/store/userInfo/type'
+import {DEL_DYNAMICROUTE_ACTION} from '@/store/route/type'
+import {removeSessionStorage} from '@/utils/storage'
 
 export default {
   name: 'Layout',

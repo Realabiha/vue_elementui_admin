@@ -1,4 +1,4 @@
-import {typeOf} from '@utils/tools'
+import {typeOf} from '@/utils/tools'
 export default function(data){
   const isString = typeOf(data) == 'String'
   if(!isString) return data

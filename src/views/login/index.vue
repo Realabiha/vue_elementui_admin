@@ -43,10 +43,10 @@
   }
 </style>
 <script>
-import CopyRight from '../../components/copyright/index'
+import CopyRight from '@/components/copyright/index'
 import constant from '../../constant'
-import {SET_USERINFO_ACTION} from '../../store/userInfo/type'
-import {SET_DYNAMICROUTE_ACTION} from '../../store/route/type'
+import {SET_USERINFO_ACTION} from '@/store/userInfo/type'
+import {SET_DYNAMICROUTE_ACTION} from '@/store/route/type'
 
 export default {
   name: 'Login',

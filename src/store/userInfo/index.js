@@ -5,9 +5,9 @@ import {
   DEL_USERINFO_ACTION,
   DEL_USERINFO_MUTATION
 } from './type'
-import * as storage from '../../utils/storage'
+import * as storage from '@/utils/storage'
 import router, {menuRoute} from '../../router'
-import {deepTrickClone, deepClone} from '../../utils/tools'
+import {deepTrickClone, deepClone} from '@/utils/tools'
 
 /**
  * @description: 依据角色筛选相应权限

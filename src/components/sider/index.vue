@@ -35,7 +35,7 @@
 </style>
 <script>
 import Navigator from '../navigator'
-import {formatGetSessionStorage, formatSetSessionStorage} from '@utils/storage'
+import {formatGetSessionStorage, formatSetSessionStorage} from '@/utils/storage'
 
 export default {
   name: 'Sider',

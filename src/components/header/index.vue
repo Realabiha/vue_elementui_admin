@@ -13,7 +13,7 @@
     width: 100%;
     height: 64px;
     background-color: #fff;
-    background-image: url("@imgs/logo.svg");
+    background-image: url("@/imgs/logo.svg");
     background-position: 10px center;
     background-repeat: no-repeat;
     background-size: 104px 50px;
