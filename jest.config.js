@@ -201,13 +201,16 @@
 //   };
 
 module.exports = {
- testEnvironment: 'jsdom',
- moduleFileExtensions: [
-  'js',
-  'vue'
- ],
- transform: {
-  '\.js$': '<rootDir>/node_modules/babel-jest',
-  '\.vue$': '<rootDir>/node_modules/vue-jest' 
- } 
+    testEnvironment: 'jsdom',
+    moduleFileExtensions: [
+    'js',
+    'vue'
+    ],
+    transform: {
+    '\.js$': '<rootDir>/node_modules/babel-jest',
+    '\.vue$': '<rootDir>/node_modules/vue-jest' 
+    },
+    moduleNameMapper: {
+        '^@/(.*)$': '<rootDir>/src/$1'
+    } 
 }
