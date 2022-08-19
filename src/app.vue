@@ -18,9 +18,10 @@
 html, body{
   margin: 0;
   padding: 0;
-  width: 100vw;
+  // width: 100%;
+  min-width: 1280px;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: scroll;
   box-sizing: border-box;
   background: #fff;
   ::-webkit-scrollbar{

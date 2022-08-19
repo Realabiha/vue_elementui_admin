@@ -34,8 +34,8 @@ import {deepTrickClone, deepClone} from '../utils/tools'
 export default function(store, router){
   // 在beforeEach钩子执行前获取vuex中的状态?
   router.beforeEach(async (to, from, next) => {
-
-
+next()
+return
     console.log('beforeEach')   
     // 用户信息
     const {userInfo = null} = store.state.user

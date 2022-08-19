@@ -3,10 +3,32 @@
     <m-header>
       <template #main>
         <div class="sykj-header_main">
+          <div class="header-logo_wrap">
+            <img class="header-main_logo" src="@/imgs/logo@1x.png" />
+            <img class="header-main_logo" src="@/imgs/logo@1x.png" style="margin-left: 12px;"/>
+          </div>
+          <div class="header-route_wrap">
+            <router-link to="/layout/out" tag="span" class="router-link_item">外包管理</router-link>
+            <router-link to="/layout/app" tag="span" class="router-link_item">应用管理</router-link> 
+          </div>
         </div>
       </template>
       <template #login>
-        <el-dropdown 
+        <div class="header-user_wrap">
+          <div class="header-user_item">
+            <i class="el-icon-user-solid"></i>
+            <span>用户</span>
+          </div>
+          <div class="header-user_item">
+            <i class="el-icon-back"></i>
+            <span>登录</span>
+          </div>
+          <div class="header-user_item">
+            <i class="el-icon-right"></i>
+            <span>登出</span>
+          </div>
+        </div>
+        <!-- <el-dropdown 
           :hide-on-click="false" 
           style="padding-right: 1rem"
           @command="onExit"
@@ -20,13 +42,14 @@
               <i class="el-icon-switch-button"></i>退出登录
             </el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown> -->
       </template>
     </m-header>
     <m-content>
-      <template #main>
-          <div class="sykj-content_right">
-            <div class="sykj-breadcrumb_wrap">
+      <!-- 123 -->
+      <!-- <template #main> -->
+          <!-- <div class="sykj-content_right"> -->
+            <!-- <div class="sykj-breadcrumb_wrap">
               <div @click="$router.back()">
                 <i class="el-icon-back"></i>
                 <span style="font-weight: 600">返回&nbsp;&nbsp; | &nbsp;&nbsp;</span>
@@ -41,26 +64,76 @@
                   {{route.meta.title}}
                 </el-breadcrumb-item>
               </el-breadcrumb>
-            </div>
-            <transition name="fade-transform" mode="out-in">
-              <router-view></router-view>
-            </transition>
-          </div>
-      </template>
+            </div> -->
+            <!-- <transition name="fade-transform" mode="out-in"> -->
+              <!-- <router-view></router-view> -->
+              <!-- <h1>hello world</h1> -->
+            <!-- </transition> -->
+          <!-- </div> -->
+      <!-- </template> -->
     </m-content>
   </div>
 </template>
 
 <style lang="scss" scoped>
   .sykj-layout_wrap{
+    position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    .sykj-header_main{
+      @include flex;
+      .header-logo_wrap{
+        padding-left: 40px;
+        @include flex;
+        align-items: center;
+      }
+      .header-route_wrap{
+        margin-left: 120px;
+        .router-link_item{
+          display: inline-block;
+          width: 161px;
+          height: 80px;
+          font-family: 'PingFangSC-Regular';
+          font-size: 20px;
+          color: #007AC3;
+          letter-spacing: 2px;
+          text-align: center;
+          line-height: 80px;
+        }
+        .router-link-active{
+          color: #FFFFFF;
+          background: #007AC3;
+        }
+      }
+    }
+      .header-user_wrap{
+        // position: absolute;
+        // right: 44px;
+        @include flex;
+        .header-user_item{
+          @include flex-column;
+          align-items: center;
+          margin-left: 28px;
+          i{
+            font-size: 24px;
+          }
+          span{
+            font-family: 'HarmonyOS_Sans_SC_Medium';
+            font-size: 14px;
+            color: #666666;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 14px;
+            margin-top: 6px;
+          }
+        }
+      }
     .sykj-content_wrap{
       width: 100%;
-      height: calc(100% - 64px);
+      height: 100%;
       .sykj-content_right{
-        width: 90%;
+        width: 100%;
         height: 100%;      
         .sykj-breadcrumb_wrap{
           @include justify-content();

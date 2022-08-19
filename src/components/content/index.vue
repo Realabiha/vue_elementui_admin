@@ -1,13 +1,17 @@
 <template>
-  <div class="sykj-content_wrap justify-content_between">
-    <m-sider></m-sider>
-    <slot name="main"></slot>
+  <div class="sykj-content_wrap">
+    <!-- <m-sider></m-sider> -->
+    <!-- <slot name="main"></slot> -->
+
+    <!-- <slot>
+    </slot> -->
+    <router-view></router-view>
   </div>
 </template>
 <style lang="scss" scoped>
   .sykj-content_wrap{
     width: 100%;
-    height: calc(100% - 64px);
+    height: 100%;
   }
 </style>
 <script>

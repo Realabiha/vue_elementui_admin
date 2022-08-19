@@ -128,10 +128,10 @@ export default {
 
           const redirect = function(){
             const routes = {
-              admin: '/layout/welcome',
-              user: '/layout/welcome',
-              lawyer: '/layout/welcome',
-              vistor: '/layout/welcome'
+              admin: '/layout/out/market',
+              user: '/layout/out/market',
+              lawyer: '/layout/out/market',
+              vistor: '/layout/out/market'
             }
             this.$router.push({path: routes[userInfo.role]})
             .catch(err => console.log(err, 'err'))

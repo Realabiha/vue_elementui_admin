@@ -9,8 +9,8 @@
     const screenWidth = screen.width,
     documentElement = document.documentElement
     if(screenWidth > documentElement.clientWidth){
-      documentElement.style.width = screenWidth + 'px'
-      document.body.style.width = '100%'
+      // documentElement.style.width = screenWidth + 'px'
+      // document.body.style.width = '100%'
     }
   }
 }())
