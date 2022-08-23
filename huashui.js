@@ -193,3 +193,114 @@ class Axios{
 }
 
 console.log(new Axios())
+
+
+
+// webpack runtime
+;(function(modules){
+  const cachedModules = {}
+  const installedChunks = {}
+  const webpack_require = function(moduleid){
+    if(cachedModules[moduleid]) return cachedModules[moduleid].exports
+    const module = cachedModules[moduleid] = {
+      id: moduleid,
+      l: false,
+      exports: {}
+    }
+    modules[moduleid].call(module.exports, module, module.exports, webpack_require)
+    module.l = true
+    return module.exports
+  }
+
+
+  // 动态加载，先加载chunk后加载模块
+
+  webpack_require.e = function(chunkid){
+    // const installedChunks = {}
+    const promises = []
+    if(installedChunks[chunkid] === 0) return
+    const promise = new Promise((resolve, reject) => {
+      installedChunks[chunkid] = [resolve, reject, promise]
+    })
+    promises.push(promise)
+    return Promise.all(promises)
+  }
+
+
+  window['webpackJsonpCallback'] = window['webpackJsonpCallback'] = []
+  webpackJsonpCallback.push = function(chunks = [], modules = {}){
+    const resolves = []
+    for(let i = 0; i < chunks.length; i++){
+      resolves.push(chunks[i][0])
+    }
+
+    for(let moduleid in modules){
+      // cachedModules
+    }
+
+
+    while(resolves.length){
+      resolves.shift()()
+    }
+  } 
+
+
+  return webpack_require('./path/to/entry')
+})({
+'./your/path/to/module': function(module, webpack_exports, webpack_require){
+  'use strict'
+  // ...
+}
+})
+
+
+class VueRouter{
+  static install(Vue){
+
+  }
+  constructor(options){
+    Vue.component()
+    Vue.observable({$route: {current: '/'}})
+    Vue.mixin({})
+  }
+  init(){
+
+  }
+  initEvent(){}
+  initComponent(){
+    Vue.component('router-link', {
+      data(){
+        return {}
+      },
+      props: {
+        to: {
+          required: false,
+          type: String,
+          default: '/'
+        }
+      },
+      render(h){
+        // <a to="/"><slot></slot></a>
+        return h('a', {to: this.$props.to, '@click': this.onClick}, '<slot></slot>')
+      },
+      methods: {
+        onClick(e){
+          e.preventDefault()
+          this.$route.current = this.$props.to
+        }
+      }
+    })
+    Vue.component('router-view', {
+      props: {},
+      render(h){
+        return h()
+      }
+    })
+  }
+}
+
+class Store{}
+const Vuex = {
+  install(){},
+  Store
+}

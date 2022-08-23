@@ -6,9 +6,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="./huashui.js"></script>
+  <script type="module">
+    import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.7.9/dist/vue.esm.browser.js'
+    const HelloWorld = {
+      data(){
+        return {}
+      },
+      props: {to: '/'},
+      // template: `<a href="/">hello world</a>`,
+      render: function(h){
+        // return h('a', {attrs: {href: this.$props.to}, on: {click: this.onClick}}, this.$slot.default)
+        return h('h1', 'hello world')
+      },
+      methods: {
+        onClick(e){
+          e.preventDefault()
+        }
+      }
+    }
+    new Vue({
+      render: function(h){
+        const NodeDes = h(HelloWorld)
+        return NodeDes
+      }
+    }).$mount('#app')
+  </script>
 </head>
 <body>
   <input type="file" name="" id="upload" />
+  <div id="app"></div>
   <script>
     // 100kb
     const chunkSize = 1024 * 100
