@@ -1,15 +1,13 @@
 <template>
-<div>
-  <router-view></router-view>
-</div>
+    <h1>About Page</h1>
 </template>
 <style lang="scss" scoped>
-
+h1{
+    color: Blue;
+}
 </style>
 <script>
 export default {
-  name: 'Empty',
-  props: {
-  }
+    name: 'About'
 }
 </script>

@@ -1,13 +1,13 @@
 <template>
-  <h1>系统管理</h1>
+    <h1>Home Page</h1>
 </template>
 <style lang="scss" scoped>
-
+h1{
+    color: yellow;
+}
 </style>
 <script>
 export default {
-  name: 'B1',
-  props: {
-  }
+    name: 'Home'
 }
 </script>

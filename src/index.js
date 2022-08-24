@@ -1,26 +1,31 @@
 import Vue from 'vue'
-import App from './app'
-import router from './router'
-import store from './store'
+import App from './app.vue'
+// import VueRouter from 'vue-router';
+import VueRouter from './vueRouter'
+import Home from './components/home/index.vue'
+import About from './components/about/index.vue'
 
-// elementui 组件注册
-import '@/js/elementui'
-// resize事件
-import '@/js/resize'
-// 全局filters 注册
-import './filters'
-// 全局directives 注册
-import './directives'
+Vue.use(VueRouter)
+
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/home',
+      component: Home
+    },
+    {
+      path: '/about',
+      component: About
+    },
+  ]
+})
+
 
 new Vue({
   router,
-  store,
   render(h) {
     return (
        h(App)
     );
   },
-  // beforeCreate(){
-  //   router.addRoutes(store.getters.dynamicRoute)
-  // }
 }).$mount('#sykj')
