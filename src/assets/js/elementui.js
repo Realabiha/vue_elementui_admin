@@ -21,7 +21,9 @@ import {
   Notification, MessageBox, Popconfirm,
   Tooltip,
   Loading,
-  DatePicker, TimePicker
+  DatePicker, TimePicker,
+  RadioGroup,
+  Radio,
  } from 'element-ui'
 
 const eleComponents = [
@@ -46,7 +48,9 @@ const eleComponents = [
   Popconfirm,
   Tooltip,
   // Loading,
-  DatePicker, TimePicker
+  DatePicker, TimePicker,
+  RadioGroup,
+  Radio,
 ]
 
 const useElementui = function(component){
