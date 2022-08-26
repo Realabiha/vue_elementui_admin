@@ -1,35 +1,490 @@
 <template>
-<div>
-
-  <SubMenu>
-      <el-input
-          placeholder="请输入内容"
-          suffix-icon="el-icon-date"
-          v-model="input1">
-      </el-input>
-      <el-button></el-button>
+  <div class="market-container_wrap">
+    <SubMenu>
+      <div class="submenu-default_wrap">
+        <el-input
+          class="search"
+          placeholder="输入名称或者描述进行查找"
+          suffix-icon="el-icon-search"
+          v-model="input1"
+        >
+        </el-input>
+        <div>
+          <el-button>导入</el-button>
+          <el-button type="primary" icon="el-icon-upload2">导出</el-button>
+          <el-button type="primary" icon="el-icon-plus">新建</el-button>
+          <el-button type="danger">批量删除</el-button>
+        </div>
+      </div>
       <template #content>
-        人力管理
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column type="selection" width="55"> </el-table-column>
+          <el-table-column label="供应商名称" prop="supplierName" width="180">
+          </el-table-column>
+          <el-table-column label="姓名" prop="supplierOfName" width="180">
+          </el-table-column>
+          <el-table-column
+            label="联系人电话"
+            prop="managerTelContactNumber"
+            width="180"
+          >
+          </el-table-column>
+          <el-table-column label="状态" prop="suppleStatu" width="180">
+          </el-table-column>
+          <el-table-column
+            label="人员类别"
+            prop="PersonnelCategory"
+            width="180"
+          >
+          </el-table-column>
+          <el-table-column label="工作地点" prop="WorkingPlace" width="180">
+          </el-table-column>
+          <el-table-column
+            label="行方项目经理"
+            prop="projectManager"
+            width="180"
+          >
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                @click="handleEdit(scope.$index, scope.row)"
+                class="btn1"
+                >查看</el-button
+              >
+              <el-button
+                size="mini"
+                @click="handleEdit(scope.$index, scope.row)"
+                class="btn1"
+                >编辑</el-button
+              >
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                class="btn1"
+                >删除</el-button
+              >
+              <el-button type="text" @click="dialogVisible = true"
+                >点击打开 Dialog</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
       </template>
     </SubMenu>
-</div>
-</template>
-<style lang="scss" scoped>
+    <!-- 弹窗 -->
+    <el-dialog
+      title=""
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="83.3%"
+    >
+      <el-form
+        :model="ruleForm"
+        :rules="rules"
+        ref="ruleForm"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
+        <div class="head1">
+          <div class="el_dialog_left">
+            <span class="information"> 基本信息 </span>
 
-</style>
-<script>
-import SubMenu from '../../components/submenu'
-export default {
-  name: 'Human',
-  components: {
-    SubMenu
-  },
-  data(){
-    return {
-      input1: ''
-    }
-  },
-  props: {
+            <el-form-item label="姓名:" prop="name">
+              <el-input v-model="ruleForm.name" class="el_input_c"></el-input>
+            </el-form-item>
+            <el-form-item label="状态:" prop="statu">
+              <el-input v-model="ruleForm.name" class="el_input_c"></el-input>
+            </el-form-item>
+            <el-form-item label="联系人电话:" prop="managerTelContactNumber">
+              <el-input
+                v-model="ruleForm.managerTelContactNumber"
+                class="el_input_c"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="最高学历" prop="region" class="input_D">
+              <el-select v-model="ruleForm.region" placeholder="请选择学历">
+                <el-option label="本科" value="shanghai"></el-option>
+                <el-option label="研究生" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <!-- <el-form-item label="姓名:" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item> -->
+            <el-form-item label="参加工作时间:" prop="time" class="input_D">
+              <el-input v-model="ruleForm.name" class="el_input_c"></el-input>
+            </el-form-item>
+            <el-form-item label="类别:" prop="category" class="input_D">
+              <el-select v-model="ruleForm.category" placeholder="请选择类别">
+                <el-option label="项目人力" value="shanghai"></el-option>
+                <el-option label="外包人力" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="外包系统:" prop="Outsourcing" class="input_D">
+              <el-select
+                v-model="ruleForm.Outsourcing"
+                placeholder="请选择类别:"
+              >
+                <el-option label="项目人力" value="shanghai"></el-option>
+                <el-option label="外包人力" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+          <div class="el_dialog_right">
+            <el-form-item label="供应商名称:" prop="supplierName">
+              <el-input v-model="ruleForm.supplierName"></el-input>
+            </el-form-item>
+            <el-form-item label="性别:" prop="resource">
+              <el-radio-group v-model="ruleForm.resource">
+                <el-radio label="男"></el-radio>
+                <el-radio label="女"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="联系人邮箱:" prop="contactEmail">
+              <el-input v-model="ruleForm.contactEmail"></el-input>
+            </el-form-item>
+            <el-form-item
+              label="技术方向:"
+              prop="Technicaldirection"
+              class="input_D"
+            >
+              <el-select v-model="ruleForm.Technicaldirection">
+                <el-option label="本科" value="shanghai"></el-option>
+                <el-option label="研究生" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="人员角色:" prop="Therole" class="input_D">
+              <el-select v-model="ruleForm.Therole">
+                <el-option label="本科" value="shanghai"></el-option>
+                <el-option label="研究生" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="行方项目经理:" prop="bankManager">
+              <el-select
+                v-model="ruleForm.bankManager"
+                placeholder="请选择行方项目经理"
+              >
+                <el-option label="优酸乳" value="shanghai"></el-option>
+                <el-option label="蒙牛" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="工作地点:" prop="Workingplace">
+              <el-radio-group v-model="ruleForm.Workingplace">
+                <el-radio label="徐庄"></el-radio>
+                <el-radio label="总部"></el-radio>
+                <el-radio label="其他"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <div class="right_bottom">
+              <div></div>
+              <div>
+                <el-upload
+                  class="avatar-uploader"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload"
+                >
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="head2">
+          <div class="head2_left">
+            <span class="information"> 资源信息 </span>
+
+            <el-form-item label="是否被纳入考勤:" prop="attendance">
+              <el-radio-group v-model="ruleForm.attendance">
+                <el-radio label="是"></el-radio>
+                <el-radio label="否"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item
+              label="面试人员:"
+              prop="TheInterviewer"
+              class="input_D"
+            >
+              <el-select v-model="ruleForm.TheInterviewer">
+                <el-option label="前端组长" value="shanghai"></el-option>
+                <el-option label="技术经理" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+          <div class="head2_right">
+            <el-form-item label="面试时间:" prop="interviewTime">
+              <el-input v-model="ruleForm.interviewTime"></el-input>
+            </el-form-item>
+            <el-form-item label="面试结果:" prop="region">
+              <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                <el-option label="通过" value="shanghai"></el-option>
+                <el-option label="未通过" value="beijing"></el-option>
+                <el-option label="待定" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+        </div>
+        <div class="head3">
+          <div class="head3_left">
+            <span class="information"> 系统信息 </span>
+
+            <el-form-item label="归属部门:" prop="AttributionDepartment">
+              <el-select v-model="ruleForm.AttributionDepartment">
+                <el-option label="综合管理部" value="shanghai"></el-option>
+                <el-option label="信息科技部" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="最后更新者:" prop="LastUpdate">
+              <el-input v-model="ruleForm.LastUpdate"></el-input>
+            </el-form-item>
+            <el-form-item label="状态:" prop="status">
+              <el-input v-model="ruleForm.status"></el-input>
+            </el-form-item>
+          </div>
+          <div class="head3_right">
+            <el-form-item label="最后更新时间:" prop="update">
+              <el-input v-model="ruleForm.update"></el-input>
+            </el-form-item>
+            <el-form-item label="类别:" prop="category">
+              <el-input v-model="ruleForm.category"></el-input>
+            </el-form-item>
+            <el-form-item label="创建者:" prop="TheCreator">
+              <el-input v-model="ruleForm.TheCreator"></el-input>
+            </el-form-item>
+          </div>
+        </div>
+      </el-form>
+    </el-dialog>
+  </div>
+</template>
++
+<style lang="scss" scoped>
+.submenu-default_wrap {
+  @include flex;
+  flex: 1;
+  @include justify-content(space-between);
+  .search {
+    width: 377px;
+    height: 36px;
   }
 }
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+::v-deep .el-dialog__wrapper {
+  width: 100%;
+  height: 83%;
+  .el-dialog__body {
+    width: 100%;
+    height: 83%;
+    .el-form {
+      width: 100%;
+      height: 100%;
+      .el-form-item {
+        .el-form-item__content {
+          .el-input {
+            .el-input__inner {
+              height: 25px;
+              line-height: 25px;
+            }
+          }
+        }
+      }
+    }
+    .head1 {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      .right_bottom {
+        width: 100%;
+        height: 265px;
+      }
+      .el_dialog_left {
+        width: 50%;
+        .information {
+          margin-top: -20px;
+          display: block;
+          font-weight: bold;
+        }
+      }
+      .el_dialog_right {
+        width: 50%;
+        margin-right: 65px;
+      }
+    }
+    .head2 {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      .head2_left {
+        width: 50%;
+        .information {
+          margin-top: -20px;
+          display: block;
+          font-weight: bold;
+        }
+      }
+      .head2_right {
+        width: 50%;
+        margin-right: 65px;
+      }
+    }
+    .head3 {
+      width: 100%;
+      height: 100%;
+      margin-top: 25px;
+      display: flex;
+      .head3_left {
+        width: 50%;
+        .information {
+          margin-top: -20px;
+          display: block;
+          font-weight: bold;
+        }
+      }
+      .head3_right {
+        width: 50%;
+        margin-right: 65px;
+      }
+    }
+  }
+  .el-dialog__header {
+    .el-dialog__title {
+      font-weight: bold;
+    }
+  }
+}
+</style>
+<script>
+import SubMenu from "../../components/submenu";
+export default {
+  name: "Human",
+  components: {
+    SubMenu,
+  },
+  data() {
+    return {
+      input1: "",
+      value1: "",
+      radio: "1",
+      dialogVisible: false,
+      imageUrl: "",
+      tableData: [
+        {
+          supplierName: "上海一同科技", //供应商名称
+          supplierOfName: "澳币哈", //姓名
+          managerTelContactNumber: "17382342137", //联系人电话
+          suppleStatu: "在世", //状态
+          PersonnelCategory: "技术部", //人员类别
+          WorkingPlace: "苏州市", //工作地点
+          projectManager: "逍遥", //行方项目经理
+        },
+      ],
+      //表单
+      ruleForm: {
+        name: "",
+        statu: "",
+        category: "",
+        resource: "",
+        Workingplace: "",
+        bankManager: "",
+        interviewTime: "",
+        interviewResults: "",
+        attendance: "",
+        TheInterviewer: "",
+      },
+      //正则验证
+      rules: {
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        managerTelContactNumber: [
+          { required: true, message: "请输入联系人手机号", trigger: "blur" },
+        ],
+        category: [{ required: true, message: "请选择类别", trigger: "blur" }],
+        Outsourcing: [
+          {
+            required: true,
+            message: "请选择系统",
+            trigger: "blur",
+          },
+        ],
+        supplierName: [
+          { required: true, message: "请输入供应商名称", trigger: "blur" },
+        ],
+        resource: [
+          { required: true, message: "请选择性别", trigger: "change" },
+        ],
+        bankManager: [
+          { required: true, message: "请选择行方项目经理", trigger: "blur" },
+        ],
+        Workingplace: [
+          { required: true, message: "请选择工作地点", trigger: "change" },
+        ],
+      },
+    };
+  },
+  props: {},
+  methods: {
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then((_) => {
+          done();
+        })
+        .catch((_) => {});
+    },
+  },
+  submitForm(formName) {
+    this.$refs[formName].validate((valid) => {
+      if (valid) {
+        alert("submit!");
+      } else {
+        console.log("error submit!!");
+        return false;
+      }
+    });
+  },
+  resetForm(formName) {
+    this.$refs[formName].resetFields();
+  },
+  handleAvatarSuccess(res, file) {
+    this.imageUrl = URL.createObjectURL(file.raw);
+  },
+  beforeAvatarUpload(file) {
+    const isJPG = file.type === "image/jpeg";
+    const isLt2M = file.size / 1024 / 1024 < 2;
+
+    if (!isJPG) {
+      this.$message.error("上传头像图片只能是 JPG 格式!");
+    }
+    if (!isLt2M) {
+      this.$message.error("上传头像图片大小不能超过 2MB!");
+    }
+    return isJPG && isLt2M;
+  },
+};
 </script>

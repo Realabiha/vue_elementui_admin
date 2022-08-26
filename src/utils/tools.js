@@ -46,7 +46,7 @@ export const deepTrickClone = function(origin){
  * @param {Boolean} 是否立即出发
  * @return {*}
  */
-export const debounce = function(func, delay, immediate = false){
+export const debounce = function(func, delay, immediate = false){3
   let timer = null
   return function(...args){
     const context = this
