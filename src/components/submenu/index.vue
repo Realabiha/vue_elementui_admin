@@ -1,9 +1,7 @@
 <template>
     <div class="com-container_wrap">
             <div class="router-link_wrap">
-                <router-link to="/layout/out/market" tag="span" class="router-link_item">供应商管理</router-link>
-                <router-link to="/layout/out/human" tag="span" class="router-link_item">外包人员管理</router-link>
-                <router-link to="/layout/out/detail" tag="span" class="router-link_item">外包人力使用</router-link>
+                <router-link v-for="({to, name}) in menus" :key="to" :to="to" tag="span" class="router-link_item">{{name}}</router-link>
                 <slot></slot>
             </div>
             <div class="main-content_wrap">
@@ -48,6 +46,17 @@
 </style>
 <script>
 export default {
-    name: 'SubMenu'
+    name: 'SubMenu',
+    props: {
+        menus: {
+            required: false,
+            type: Array,
+            default(){return [
+                {to: '/layout/out/market', name: '供应商管理'},
+                {to: '/layout/out/human', name: '外包人员管理'},
+                {to: '/layout/out/detail', name: '外包人力使用'}
+            ]}
+        }
+    }
 }
 </script>
