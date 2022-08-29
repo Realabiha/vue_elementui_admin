@@ -1,5 +1,7 @@
 <template>
-    <h1>Home Page</h1>
+    <h1>
+        Home Page
+    </h1>
 </template>
 <style lang="scss" scoped>
 h1{
@@ -8,6 +10,8 @@ h1{
 </style>
 <script>
 export default {
-    name: 'Home'
+    name: 'Home',
+    components: {
+    }
 }
 </script>
