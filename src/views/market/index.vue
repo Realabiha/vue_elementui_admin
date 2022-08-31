@@ -126,9 +126,7 @@
             <div class="footers">
               <div class="footers_left">
                 <el-form-item label="归属部门" prop="region">
-                  <el-select
-                    v-model="ruleForm.region"
-                  >
+                  <el-select v-model="ruleForm.region">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
                   </el-select>
@@ -184,7 +182,6 @@
   .el-form {
     width: 100%;
     height: 100%;
-
     .el-form-item {
       width: 100%;
       height: 25px;
@@ -238,15 +235,18 @@
       }
       .header_dialog_right {
         width: 50%;
+        margin-top: 15px;
         .el_dialog_btn {
           float: right;
+
+          top: -25px;
           margin-top: -25px;
-          .el-button{
+          .el-button {
             height: 25px;
             text-align: center;
             line-height: 0px;
           }
-          .el-button:nth-child(1){
+          .el-button:nth-child(1) {
             background: rgb(127, 127, 238);
             color: #fff;
           }
