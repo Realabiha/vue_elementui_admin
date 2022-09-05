@@ -35,7 +35,9 @@ export default class VueRouter{
         this.$options.path = Vue.observable({current: '/home'})
         Vue.component('router-link', {
             props: {
-                to: '/home'
+                to: {
+                    type: String
+                }
             },
             render(h){
                 let self = this

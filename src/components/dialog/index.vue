@@ -1,5 +1,5 @@
 <template>
-    <h1 v-show="show">{{msg}}</h1>
+    <h1 v-show="show" @click="close">{{msg}}</h1>
 </template>
 <style lang="scss" scoped>
 h1{

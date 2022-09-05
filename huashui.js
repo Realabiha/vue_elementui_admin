@@ -304,3 +304,37 @@ const Vuex = {
   install(){},
   Store
 }
+
+
+const retryAjax = function(ajax, count = 3){
+  const sendAjax = function(){
+    return new Promise((resolve, reject) => {
+      const send = function(){
+        return new Promise((res, rej) => {
+          setTimeout(_ => {
+            Math.random() > .5 ? res(123) : rej(789)
+          })
+        })
+      }
+      const tasks = new Array(count).fill(send)
+      const excute = function(data){
+        if(tasks.length){
+          tasks.shift()()
+          .then(res => {
+            resolve(res)
+          },
+          rej => {
+            excute(rej)
+          })
+          .catch(err => {
+            excute(err)
+          })
+        }else{
+          reject(data)
+        }
+      }
+      excute()
+    })
+  }
+  return sendAjax()
+}
