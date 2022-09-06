@@ -17,144 +17,62 @@
         </div>
       </div>
       <template #content>
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column label="名称" prop="companyName" width="180">
-          </el-table-column>
-          <el-table-column label="联系人" prop="companyManager" width="180">
-          </el-table-column>
-          <el-table-column label="联系人电话" prop="managerTel" width="180">
-          </el-table-column>
-          <el-table-column label="联系人邮箱" prop="managerMail" width="180">
-          </el-table-column>
-          <el-table-column label="公司简介" prop="companyDetail" width="180">
-            <template slot-scope="scope">
-              <el-popover trigger="hover" placement="top">
-                <p>{{ scope.row.companyDetail }}</p>
-                <div slot="reference" class="name-wrapper">
-                  <el-tag size="medium">{{
-                    `${scope.row.companyDetail.slice(0, 8)}......`
-                  }}</el-tag>
-                </div>
-              </el-popover>
-            </template>
-          </el-table-column>
-          <el-table-column label="姓名" prop="companyManager" width="180">
-          </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button type="text" @click="dialogVisible = true"
-                >查看</el-button
-              >
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)"
-                >编辑</el-button
-              >
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
-                >删除</el-button
-              >
-            </template>
-          </el-table-column>
-        </el-table>
-      </template>
-      <el-dialog
-        :visible.sync="dialogVisible"
-        width="83.3%"
-        :before-close="handleClose"
-        :show-close="false"
-        :close-on-click-modal="false"
+         <el-date-picker
+      v-model="value1"
+      type="month"
+      placeholder="选择日期">
+    </el-date-picker>
+         <el-table
+      :data="tableData"
+      :cell-style="onCellStyle"
+      :span-method="arraySpanMethod"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="typeid"
       >
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="130px"
-          class="demo-ruleForm"
+
+      </el-table-column>
+      <el-table-column
+        prop="title"
+      >
+        
+      </el-table-column>
+      <el-table-column
+        label="ID"
+        width="180">
+        <el-table-column
+          label="7月"
+          prop="id">
+        </el-table-column>
+      </el-table-column>
+      <el-table-column
+        label="姓名">
+        <el-table-column
+          label="7月"
+          prop="name"
+
         >
-          <div class="header_dialog">
-            <div class="header_dialog_left">
-              <span class="information">基本信息</span>
-
-              <el-form-item label="编号:">
-                <el-input v-model="ruleForm.serialNumber"></el-input>
-              </el-form-item>
-
-              <el-form-item label="年审状态:">
-                <el-radio-group v-model="ruleForm.resource">
-                  <el-radio label="通过"></el-radio>
-                  <el-radio label="未通过"></el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="联系人电话:">
-                <el-input v-model="ruleForm.outsourceNum"></el-input>
-              </el-form-item>
-            </div>
-            <div class="header_dialog_right">
-              <div class="el_dialog_btn">
-                <el-button>保存</el-button>
-                <el-button @click="handleClose(done)">关闭</el-button>
-              </div>
-              <el-form-item label="供应商名称:" prop="serialNumber">
-                <el-input v-model="ruleForm.serialNumber"></el-input>
-              </el-form-item>
-
-              <el-form-item label="联系人:">
-                <el-input v-model="ruleForm.statu"></el-input>
-              </el-form-item>
-              <el-form-item label="联系人邮箱:">
-                <el-input v-model="ruleForm.statu"></el-input>
-              </el-form-item>
-            </div>
-          </div>
-          <div class="center_dialog">
-            <el-form-item label="公司简介:">
-              <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-            </el-form-item>
-            <el-form-item label="以往合作情况:">
-              <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-            </el-form-item>
-            <el-form-item label="合作项目实施效果:">
-              <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-            </el-form-item>
-          </div>
-          <div class="footer_dialog">
-            <span class="spans">系统信息</span>
-            <div class="footers">
-              <div class="footers_left">
-                <el-form-item label="归属部门" prop="region">
-                  <el-select
-                    v-model="ruleForm.region"
-                  >
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="最后更新者" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="状态" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-              </div>
-              <div class="footers_right">
-                <el-form-item label="最后更新时间" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="类别" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="创建者" prop="name">
-                  <el-input v-model="ruleForm.name"></el-input>
-                </el-form-item>
-              </div>
-            </div>
-          </div>
-        </el-form>
-      </el-dialog>
+        </el-table-column>
+      </el-table-column>
+      <el-table-column
+        label="数值 1">
+        <el-table-column
+          prop="amount1"
+          label="7月"
+        >
+        </el-table-column>
+      </el-table-column>
+      <el-table-column
+        label="数值 2">
+        <el-table-column
+          label="7月"
+          prop="amount2"
+        >
+        </el-table-column>
+      </el-table-column>
+    </el-table>
+      </template>
     </SubMenu>
   </div>
 </template>
@@ -299,18 +217,148 @@ export default {
   },
   data() {
     return {
+      value1: new Date(),
       input1: "",
       dialogVisible: false,
       tableData: [
         {
-          companyName: "上海一同科技",
-          companyManager: "澳币哈",
-          managerTel: "17382342137",
-          managerMail: "123@163.com",
-          companyDetail:
-            "计算机通信网络技术的研发，计算机信息系统安全专用产品的研发、销售（凭许可证经……",
-        },
-      ],
+          typeid: '103',
+          title: '不良金额（亿） - 人 口径',
+          id: '12987122',
+          name: '王小虎',
+          amount1: '234',
+          amount2: '3.2',
+          amount3: 10
+        }, {
+          typeid: '123',
+          title: '不良率 - 人 口径',
+          id: '12987123',
+          name: '王小虎',
+          amount1: '165',
+          amount2: '4.43',
+          amount3: 12
+        }, {
+          typeid: '123',
+          title: '拨备覆盖率 - 人 口径',
+          id: '12987124',
+          name: '王小虎',
+          amount1: '324',
+          amount2: '1.9',
+          amount3: 9
+        }, {
+          typeid: '113',
+          title: '不良率 - 借条',
+          id: '12987125',
+          name: '王小虎',
+          amount1: '621',
+          amount2: '2.2',
+          amount3: 17
+        }, {
+          typeid: '456',
+          title: '逾期率 - 借条',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '456',
+          title: '拨贷比',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '46',
+          title: '拨备覆盖率 - 借条',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '789',
+          title: '贷款余额 （亿）',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '7890',
+          title: '不良贷款金额（亿）  - 借条',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '789',
+          title: '累计核销金额（亿）',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '7890',
+          title: '逾欠息贷款余额（亿）- 借条',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '789',
+          title: '拨备金额 （亿）',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '789',
+          title: '累计营业净收入（亿）',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '012',
+          title: '累计 信用减值损失（亿）',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '012',
+          title: '其中：当月拨备增额',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '012',
+          title: '其中：当月核销增额',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }, {
+          typeid: '012',
+          title: '累计税后净利润（亿）',
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }
+        ].sort((a, b) => a.typeid - b.typeid),
       ruleForm: {
         name: "",
         region: "",
@@ -330,7 +378,49 @@ export default {
     };
   },
   props: {},
+  computed: {
+    spanArr(){
+      // let pos = -1
+      const tableData = this.tableData
+      return tableData.reduce((prev, item, index) => {
+        const {typeid} = item
+        if(prev[typeid] === undefined){
+          // pos = index
+          prev[typeid] = [index, 1, 1]
+        }else{
+          prev[typeid][1]++
+        }
+        return prev
+      }, {})
+    }
+  },
   methods: {
+    onCellStyle({row, column, rowIndex, columnIndex}){
+      // console.log(row, column, rowIndex, columnIndex)
+    },
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      if(columnIndex == 0){
+        const {typeid} = row        
+        if(rowIndex === this.spanArr[typeid][0]){
+          const result =  this.spanArr[typeid].slice(1)
+          console.log(typeid, rowIndex, result)
+          return result
+        }
+        return [0, 0]
+
+        // if(rowIndex < 3){
+        //   return [1, 1]
+        // }else if(rowIndex === 3){
+        //   return [4, 1]
+        // }else if(rowIndex === 7){
+        //   return [5, 1]
+        // }else if(rowIndex === 12){
+        //   return [5, 1]
+        // }else{
+        //   return [0, 0]
+        // }
+      }
+    },
     handleEdit(index, row) {
       console.log(index, row);
     },

@@ -5,12 +5,12 @@
         <div class="sykj-header_main">
           <div class="header-logo_wrap">
             <img class="header-main_logo" src="@/imgs/logo@1x.png" />
-            <img class="header-main_logo" src="@/imgs/logo@1x.png" style="margin-left: 12px;"/>
+            <!-- <img class="header-main_logo" src="@/imgs/logo@1x.png" style="margin-left: 12px;"/> -->
           </div>
-          <div class="header-route_wrap">
+          <!-- <div class="header-route_wrap">
             <router-link to="/layout/out" tag="span" class="router-link_item">外包管理</router-link>
             <router-link to="/layout/app" tag="span" class="router-link_item">应用管理</router-link> 
-          </div>
+          </div> -->
         </div>
       </template>
       <template #login>
@@ -80,7 +80,8 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    // overflow: hidden;
+    overflow-y: scroll;
     .sykj-header_main{
       @include flex;
       .header-logo_wrap{

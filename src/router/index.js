@@ -39,24 +39,15 @@ export const menuRoute = [
       icon: 'el-icon-search',
       title: '一级菜单'
     },
-    path: '/layout/',
+    path: '/',
     component: _ => import('../components/layout'),
-    children: [
-      {
-        meta: { 
-          auth: ['admin', 'user', 'lawyer', 'vistor'], 
-          icon: 'el-icon-help',
-          title: '首页' 
-        },  
-        path: 'out',
-        redirect: '/layout/out/market',
-        component: _ => import('../views/empty'),
+
         children: [
           {
             meta: { 
               auth: ['admin', 'user', 'lawyer', 'vistor'], 
               icon: 'el-icon-help',
-              title: '首页' 
+              title: '指标分析' 
             },  
             path: 'market',
             component: _ => import('../views/market'),
@@ -65,7 +56,7 @@ export const menuRoute = [
             meta: { 
               auth: ['admin', 'user', 'lawyer', 'vistor'], 
               icon: 'el-icon-help',
-              title: '首页' 
+              title: '损益分析' 
             },  
             path: 'human',
             component: _ => import('../views/human'),
@@ -74,34 +65,34 @@ export const menuRoute = [
             meta: { 
               auth: ['admin', 'user', 'lawyer', 'vistor'], 
               icon: 'el-icon-help',
-              title: '首页' 
+              title: '年度经营分析' 
             },  
             path: 'detail',
             component: _ => import('../views/detail'),
           }
         ]
       },
-      {
-        meta: { 
-          auth: ['admin', 'user', 'lawyer', 'vistor'], 
-          icon: 'el-icon-help',
-          title: '首页' 
-        },  
-        path: 'app',
-        redirect: '/layout/app/system',
-        component: _ => import('../views/empty'),
-        children: [
-          {
-            meta: { 
-              auth: ['admin', 'user', 'lawyer', 'vistor'], 
-              icon: 'el-icon-help',
-              title: '首页' 
-            },  
-            path: 'system',
-            component: _ => import('../views/system'),
-          },
-        ]
-      },
+      // {
+      //   meta: { 
+      //     auth: ['admin', 'user', 'lawyer', 'vistor'], 
+      //     icon: 'el-icon-help',
+      //     title: '首页' 
+      //   },  
+      //   path: 'app',
+      //   redirect: '/layout/app/system',
+      //   component: _ => import('../views/empty'),
+      //   children: [
+      //     {
+      //       meta: { 
+      //         auth: ['admin', 'user', 'lawyer', 'vistor'], 
+      //         icon: 'el-icon-help',
+      //         title: '首页' 
+      //       },  
+      //       path: 'system',
+      //       component: _ => import('../views/system'),
+      //     },
+      //   ]
+      // },
       {
         meta: {
           auth: ['admin', 'user', 'lawyer'], 
@@ -116,8 +107,8 @@ export const menuRoute = [
         path: '*',
         redirect: '404'
       }
-    ]
-  }
+    // ]
+  // }
 ]
 
 // 先挂载通用路由 登陆后挂载权限路由

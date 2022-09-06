@@ -52,9 +52,9 @@ export default {
             required: false,
             type: Array,
             default(){return [
-                {to: '/layout/out/market', name: '供应商管理'},
-                {to: '/layout/out/human', name: '外包人员管理'},
-                {to: '/layout/out/detail', name: '外包人力使用'}
+                {to: '/market', name: '指标分析'},
+                {to: '/human', name: '损益分析'},
+                {to: '/detail', name: '年度经营分析'}
             ]}
         }
     }
