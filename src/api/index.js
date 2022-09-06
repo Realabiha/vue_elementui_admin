@@ -1,9 +1,14 @@
 import axios from './axios.config'
 
+const merge = function(origin, target){
+  return Object.assign(origin, target)
+}
+
 export const userLogin = function(config){
-  // return axios(config)
-  return new Promise((resolve, reject) => {
-    setTimeout(_ => resolve({code: '0'}))
-  })
+  const base = {
+    method: 'post',
+    url: '/login/manage/admin/login'
+  }
+  return axios(merge(base, config))
 }
 

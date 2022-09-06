@@ -36,6 +36,80 @@ import {deepTrickClone, deepClone} from '@/utils/tools'
   return filter(deepClone(menuRoute))
 }
 
+/**
+ * @description: 依据权限数组筛选相应权限
+ * @param {Array} 后台权限数组 
+ * @return {Array} 权限数组
+ */
+const withPermission = function(_permission){
+  const menus = [
+    {
+      title: 'a', 
+      path: '/a', 
+      children: [
+        {
+          title: '1', 
+          path: '1',
+          children: [
+            {
+              title: '2', 
+              path: '2',
+            }
+          ]
+        }
+      ]
+    }, 
+    {
+      title: 'b', 
+      path: '/b', 
+      children: [
+        {
+            title: '1', 
+            path: '1',
+        }
+      ]
+    }
+  ]
+  const permission = _permission || [
+    {
+      title: 'a', 
+      children: [
+        {
+          title: '1', 
+          children: [
+            {
+              title: '2'
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+  const withPer = []
+
+  const filter = function(origin, target, flag = 1){
+    for(let i = 0; i < origin.length; i++){
+      const o = origin[i]
+      for(let j = 0; j < target.length; j++){
+        const t = target[j]
+        if(o.title === t.title){
+          const temp = {title: o.title, path: o.path}
+          flag && withPer.push(temp)
+          if(o?.children?.length && t?.children?.length){
+            temp.children = filter(o.children, t.children, 0)
+          }
+          return temp
+        }
+      }
+    }
+  }
+
+  filter(menus, permission)
+
+  return withPer
+}
+
 export default {
   state(){
     return {

@@ -1,19 +1,20 @@
 import axios from 'axios'
 import router from '../router'
+import {formatGetSessionStorage} from '@/utils/storage'
 const instance = axios.create()
 
 // token
 const useToken = function(config = {}){
   config.header = {
     ...config.header,
-    'Token': 'token'
+    'token': formatGetSessionStorage('userInfo')?.token
   }
   return config
 }
 
 // 开发代理或生产nginx转发
 const useProxy = function(config = {}){
-  config.url = NODE_ENV == 'devlopment' ? '/api' : '/nginx' + config.url
+  config.url = NODE_ENV == 'devlopment' ? '/api' : '' + config.url
   return config
 }
 
