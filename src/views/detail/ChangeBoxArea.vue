@@ -17,7 +17,7 @@
       <span class="pull-right">{{ selectItemNumber }}/{{ data.length }}</span>
     </div>
 
-    <div class="panel-body">
+    <div class="panel-body"> 
       <ul>
         <li v-for="item in data" :key="item.indicatorCode">
           <div class="checkbox">

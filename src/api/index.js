@@ -7,4 +7,3 @@ export const userLogin = function(config){
   })
 }
 
-

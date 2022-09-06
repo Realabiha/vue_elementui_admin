@@ -289,6 +289,9 @@
     }
   }
 }
+::v-deep .el-table tbody tr:hover > td {
+  background-color: rgb(226,244,255) !important;
+}
 </style>
 <script>
 import SubMenu from "../../components/submenu";

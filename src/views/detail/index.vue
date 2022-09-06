@@ -17,7 +17,7 @@
         </div>
       </div>
       <template #content>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%; ursor: pointer">
           <el-table-column type="selection" width="55"> </el-table-column>
           <el-table-column label="编号" prop="serialNumber" width="180">
           </el-table-column>
@@ -45,12 +45,11 @@
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" @click="outerVisible = true"
+              
+              <el-button size="mini" @click="outerVisible = true"
                 >查看</el-button
               >
-              <el-button
-                size="mini"
-               @click="outerVisible = true"
+              <el-button size="mini" @click="outerVisible = true"
                 >编辑</el-button
               >
               <el-button
@@ -293,6 +292,9 @@
     }
   }
 }
+::v-deep .el-table tbody tr:hover > td {
+    background-color: rgb(226,244,255) !important;
+}
 </style>
 <script>
 import SubMenu from "../../components/submenu";
@@ -315,7 +317,7 @@ export default {
           genre: "计时", //类型
           statu: "关闭", //状态
           proposer: "逍遥", //申请人
-          teamworkName: "火箭少女", //团队名称
+          teamworkName: "平底锅少女", //团队名称
           keyProcess: "ooppio", //关联项目
           relevancePersonnel: "二皇子", //关联人员
         },
@@ -329,14 +331,14 @@ export default {
         },
       ],
       form: {
-        serialNumber: "SYXJ.20220825103PX",
+        serialNumber: "SYKJ.20220825103PX",
         DayDate: "2022",
         outsourceNum: "2222",
         className: "A+B+C",
-        humanCost: "",
-        classifier: "",
-        applyStatus: "",
-        EndDate: "",
+        humanCost: "喜茶暴柠茶",
+        classifier: "计时",
+        applyStatus: "状态",
+        EndDate: "2022-08-02",
       },
     };
   },
