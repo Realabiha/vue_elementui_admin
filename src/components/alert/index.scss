@@ -1,0 +1,15 @@
+.dialog_wrap{
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, .5);
+    @include flex-column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    color: skyblue;
+    .dialog_body{
+        background: saddlebrown;
+    }
+}

@@ -29,7 +29,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   response => {
-    if(response.status = 400){
+    if(response.status == 400){
       router.replace({name: 'Login', query: {redirect: location.hash.slice(1)}})
       return {}
     }

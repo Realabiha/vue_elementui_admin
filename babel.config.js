@@ -1,22 +1,23 @@
 module.exports = {
-  sourceType: 'unambiguous',
+  sourceType: "unambiguous",
   presets: [
     [
-      '@babel/preset-env',
+      "@babel/preset-env",
       {
-        useBuiltIns: 'usage',
-        corejs: '3',
-      }
-    ]
+        useBuiltIns: "usage",
+        corejs: "3",
+      },
+    ],
+    "@vue/babel-preset-jsx",
   ],
-  plugins:  [
+  plugins: [
     [
       "component",
       {
-        "libraryName": "element-ui",
-        "styleLibraryName": "theme-chalk",
-      }
+        libraryName: "element-ui",
+        styleLibraryName: "theme-chalk",
+      },
     ],
     "@babel/plugin-transform-runtime",
-  ]
-}
+  ],
+};
