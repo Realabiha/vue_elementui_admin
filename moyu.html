@@ -1,61 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="./huashui.js"></script>
-  <script type="module">
-    import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.7.9/dist/vue.esm.browser.js'
-    const HelloWorld = {
-      data(){
-        return {}
-      },
-      props: {to: '/'},
-      // template: `<a href="/">hello world</a>`,
-      render: function(h){
-        // return h('a', {attrs: {href: this.$props.to}, on: {click: this.onClick}}, this.$slot.default)
-        return h('h1', 'hello world')
-      },
-      methods: {
-        onClick(e){
-          e.preventDefault()
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="./huashui.js"></script> -->
+    <script type="module">
+      import Vue from "https://cdn.jsdelivr.net/npm/vue@2.7.9/dist/vue.esm.browser.js";
+      const HelloWorld = {
+        data() {
+          return {};
+        },
+        props: { to: "/" },
+        // template: `<a href="/">hello world</a>`,
+        render: function (h) {
+          // return h('a', {attrs: {href: this.$props.to}, on: {click: this.onClick}}, this.$slot.default)
+          return h("h1", "hello world");
+        },
+        methods: {
+          onClick(e) {
+            e.preventDefault();
+          },
+        },
+      };
+      new Vue({
+        render: function (h) {
+          const NodeDes = h(HelloWorld);
+          return NodeDes;
+        },
+      }).$mount("#app");
+    </script>
+    <script type="module">
+      import Observer from "./src/core/Observer.js";
+      const car = {
+        brand: "五菱宏光",
+        price: "998",
+        color: ["red", "yellow", "blue"],
+      };
+      new Observer(car);
+      car.price;
+      car.price = "888";
+      car.color.push("black");
+      car.color.pop();
+      console.log(car);
+    </script>
+  </head>
+  <body>
+    <input type="file" name="" id="upload" />
+    <div id="app"></div>
+    <script>
+      // 100kb
+      const chunkSize = 1024 * 100;
+      let chunkNum = 0;
+      const promises = [];
+      const button = document.querySelector("#upload");
+      button.addEventListener("change", function (e) {
+        // console.log(this.files)
+        const [file] = this.files;
+        chunkNum = file.size / chunkSize;
+        console.log(Math.ceil(chunkNum), chunkNum, file.size);
+        for (let i = 0; i < chunkNum; i++) {
+          const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
+          promises.push({ chunk, hash: `${file.name}_${i}` });
         }
-      }
-    }
-    new Vue({
-      render: function(h){
-        const NodeDes = h(HelloWorld)
-        return NodeDes
-      }
-    }).$mount('#app')
-  </script>
-</head>
-<body>
-  <input type="file" name="" id="upload" />
-  <div id="app"></div>
-  <script>
-    // 100kb
-    const chunkSize = 1024 * 100
-    let chunkNum = 0
-    const promises = []
-    const button = document.querySelector('#upload')
-    button.addEventListener('change', function(e){
-      // console.log(this.files)
-      const [file] = this.files
-      chunkNum = file.size / chunkSize
-      console.log(Math.ceil(chunkNum), chunkNum, file.size)
-      for(let i = 0; i < chunkNum; i++){
-        const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize)
-        promises.push({chunk, hash: `${file.name}_${i}`})
-      }
-
-      
-
-    })
-
-    
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
