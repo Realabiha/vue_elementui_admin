@@ -1,43 +1,10 @@
 <template>
-  <h1>posts</h1>
-  <!-- <div class="content-item_wrap">
-    <h3>当月营业净收入（亿）- 扣除分润，利息成本，手续费</h3>
-    <p>
-      <el-date-picker
-        format="yyyy"
-        value-format="yyyy"
-        v-model="month1"
-        type="year"
-        placeholder="选择年份"
-      >
-      </el-date-picker>
-      年
-    </p>
-    <el-card shadow="hover" :body-style="{ padding: 0 }">
-      <el-table
-        :data="tableData"
-        :cell-style="onCellStyle"
-        :span-method="arraySpanMethod"
-        border
-        style="width: 100%"
-      >
-        <el-table-column label="当月" prop="kind"> </el-table-column>
-        <el-table-column prop="name"> </el-table-column>
-        <el-table-column label="1月"> </el-table-column>
-        <el-table-column label="2月"> </el-table-column>
-        <el-table-column label="3月"> </el-table-column>
-        <el-table-column label="4月"> </el-table-column>
-        <el-table-column label="5月"> </el-table-column>
-        <el-table-column label="6月"> </el-table-column>
-        <el-table-column label="7月"> </el-table-column>
-        <el-table-column label="8月"> </el-table-column>
-        <el-table-column label="9月"> </el-table-column>
-        <el-table-column label="10月"> </el-table-column>
-        <el-table-column label="11月"> </el-table-column>
-        <el-table-column label="12月"> </el-table-column>
-      </el-table>
-    </el-card>
-  </div> -->
+  <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tab-pane label="余额 [相对年底计]" name="first">first</el-tab-pane>
+    <el-tab-pane label="余额 [相对年底计划和集中度]" name="second"
+      ><el-input v-model="value2"></el-input
+    ></el-tab-pane>
+  </el-tabs>
 </template>
 <style lang="scss" scoped></style>
 <script>
@@ -47,6 +14,7 @@ export default {
     return {
       month1: "",
       value2: "",
+      activeName: "first",
       tableData: [
         {
           kind: "营业净收入（亿） ",
@@ -100,8 +68,15 @@ export default {
       }, {});
     },
   },
+  activated() {
+    console.log("actived");
+  },
+  deactivated() {},
   methods: {
     onCellStyle() {},
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
   },
 };
 </script>

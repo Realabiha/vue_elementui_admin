@@ -95,13 +95,13 @@ export default {
       import("./tab-" + tab.toLowerCase()).then((res) => {
         this.currentTabComponent = res.default;
       });
-      import("@/components/alert").then((res) => {
-        if (!window.dialog) {
-          const ins = new res.default().$mount();
-          document.body.appendChild(ins.$el);
-          window.dialog = true;
-        }
-      });
+      // import("@/components/alert").then((res) => {
+      //   if (!window.dialog) {
+      //     const ins = new res.default().$mount();
+      //     document.body.appendChild(ins.$el);
+      //     window.dialog = true;
+      //   }
+      // });
     },
   },
 };
