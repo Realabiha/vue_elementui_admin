@@ -1,8 +1,11 @@
 import Dep from "./Dep.js";
 export default class Observer {
   constructor(target) {
+    // 标记
+    target.__ob__ = this;
+    // 数组
+    this.dep = new Dep();
     if (Array.isArray(target)) {
-      this.dep = new Dep();
       const arrayProto = Object.create(Array.prototype);
       const methods = ["push", "pop"];
       methods.forEach((method) => {
@@ -29,12 +32,14 @@ export default class Observer {
   walk(target) {
     const keys = Object.keys(target);
     keys.forEach((key) => {
-      defineReactive(target, key);
+      // 防止死循环？
+      if (key !== "__ob__") defineReactive(target, key);
     });
   }
 }
 
 function defineReactive(target, key, value) {
+  const childOb = target.__ob__ || new Observer(target);
   if (arguments.length === 2) {
     value = target[key];
   }
@@ -42,19 +47,19 @@ function defineReactive(target, key, value) {
   if (typeof value === "object") {
     new Observer(value);
   }
-  const dep = new Dep();
+  // const dep = new Dep();
   Object.defineProperty(target, key, {
     configurable: true,
     enumerable: true,
     get() {
       console.log(`读取了${key}`);
-      dep.add();
+      childOb.dep.add();
       return value;
     },
     set(newValue) {
       console.log(`设置了${key}`);
       value = newValue;
-      dep.notify();
+      childOb.dep.notify();
     },
   });
 }
