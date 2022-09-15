@@ -1,65 +1,79 @@
 import Dep from "./Dep.js";
+
+const arrayProto = Array.prototype;
+const tempProto = Object.create(arrayProto);
+const methods = ["push", "pop"];
+
 export default class Observer {
   constructor(target) {
-    // 标记
+    this.target = target;
     target.__ob__ = this;
-    // 数组
     this.dep = new Dep();
     if (Array.isArray(target)) {
-      const arrayProto = Object.create(Array.prototype);
-      const methods = ["push", "pop"];
-      methods.forEach((method) => {
-        const origin = Array.prototype[method];
-        Object.defineProperty(arrayProto, method, {
+      for (let i = 0; i < methods.length; i++) {
+        const method = methods[i];
+        const origin = arrayProto[method];
+        const description = {
           configurable: true,
           enumerable: true,
-          writable: true,
+          writeable: true,
           value(...args) {
-            console.log(`设置了${method}`);
+            console.log(`修改了${method}`);
             return origin.apply(this, args);
           },
-        });
-      });
-      target.__proto__ = arrayProto;
-      // 深度
-      target.forEach((item) => {
-        if (typeof item === "object") new Observer(item);
-      });
+        };
+        Object.defineProperty(tempProto, method, description);
+      }
+      target.__proto__ = tempProto;
+      this.observeArray(target);
     } else {
-      this.walk(target);
+      this.walk();
     }
   }
-  walk(target) {
-    const keys = Object.keys(target);
-    keys.forEach((key) => {
-      // 防止死循环？
-      if (key !== "__ob__") defineReactive(target, key);
-    });
+  walk() {
+    const keys = Object.keys(this.target);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      key !== "__ob__" && defineRective(this.target, key);
+    }
+  }
+  observeArray(target) {
+    for (let i = 0; i < target.length; i++) {
+      const item = target[i];
+      observe(item);
+    }
   }
 }
-
-function defineReactive(target, key, value) {
-  const childOb = target.__ob__ || new Observer(target);
-  if (arguments.length === 2) {
-    value = target[key];
-  }
-  // 递归
-  if (typeof value === "object") {
-    new Observer(value);
-  }
-  // const dep = new Dep();
-  Object.defineProperty(target, key, {
+function defineRective(target, key, value) {
+  const dep = new Dep();
+  if (arguments.length === 2) value = target[key];
+  const childOb = value.__ob__;
+  const description = {
     configurable: true,
     enumerable: true,
     get() {
-      console.log(`读取了${key}`);
-      childOb.dep.add();
+      console.log(`访问了${key}`);
+      if (childOb) {
+        childOb.dep.add();
+      }
+      dep.add();
+      if (typeof value === "object") {
+        new Observer(value);
+      }
       return value;
     },
     set(newValue) {
       console.log(`设置了${key}`);
+      if (value === newValue) return;
+      dep.notify();
       value = newValue;
-      childOb.dep.notify();
     },
-  });
+  };
+
+  Object.defineProperty(target, key, description);
+}
+function observe(target) {
+  if (typeof target !== "object") return;
+  if (target.__ob__) return target.__ob__;
+  new Observer(target);
 }

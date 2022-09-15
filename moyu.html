@@ -35,14 +35,17 @@
       import Observer from "./src/core/Observer.js";
       const car = {
         brand: "五菱宏光",
-        price: "998",
-        color: ["red", "yellow", "blue"],
+        price: {
+          vip: {
+            1: "998",
+            2: "888",
+          },
+        },
+        color: ["red", "yellow", "blue", { a: 1, b: [1, 2, 3] }],
       };
       new Observer(car);
-      car.price;
-      car.price = "888";
-      car.color.push("black");
-      car.color.pop();
+      car.color[3].a = "a";
+      car.color[3].b.push(7);
       console.log(car);
     </script>
   </head>
