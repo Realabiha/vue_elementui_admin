@@ -7,7 +7,8 @@ module.exports = {
         useBuiltIns: 'usage',
         corejs: '3',
       }
-    ]
+    ],
+    "@vue/babel-preset-jsx"
   ],
   plugins:  [
     [

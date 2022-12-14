@@ -107,8 +107,8 @@ class _Promise{
 
 
 const _promise = new _Promise((resolve, reject) => {setTimeout(_ => resolve(123))})
-.then(res => asd, rej => console.log(rej, 'rej'))
-.then(res => console.log(res, 'res'), rej => console.log(rej, 'rej'))
+// .then(res => asd, rej => console.log(rej, 'rej'))
+// .then(res => console.log(res, 'res'), rej => console.log(rej, 'rej'))
 
 const targetMap = new Map()
       keyMap = new Map()
@@ -197,61 +197,61 @@ console.log(new Axios())
 
 
 // webpack runtime
-;(function(modules){
-  const cachedModules = {}
-  const installedChunks = {}
-  const webpack_require = function(moduleid){
-    if(cachedModules[moduleid]) return cachedModules[moduleid].exports
-    const module = cachedModules[moduleid] = {
-      id: moduleid,
-      l: false,
-      exports: {}
-    }
-    modules[moduleid].call(module.exports, module, module.exports, webpack_require)
-    module.l = true
-    return module.exports
-  }
+// ;(function(modules){
+//   const cachedModules = {}
+//   const installedChunks = {}
+//   const webpack_require = function(moduleid){
+//     if(cachedModules[moduleid]) return cachedModules[moduleid].exports
+//     const module = cachedModules[moduleid] = {
+//       id: moduleid,
+//       l: false,
+//       exports: {}
+//     }
+//     modules[moduleid].call(module.exports, module, module.exports, webpack_require)
+//     module.l = true
+//     return module.exports
+//   }
 
 
-  // 动态加载，先加载chunk后加载模块
+//   // 动态加载，先加载chunk后加载模块
 
-  webpack_require.e = function(chunkid){
-    // const installedChunks = {}
-    const promises = []
-    if(installedChunks[chunkid] === 0) return
-    const promise = new Promise((resolve, reject) => {
-      installedChunks[chunkid] = [resolve, reject, promise]
-    })
-    promises.push(promise)
-    return Promise.all(promises)
-  }
-
-
-  window['webpackJsonpCallback'] = window['webpackJsonpCallback'] = []
-  webpackJsonpCallback.push = function(chunks = [], modules = {}){
-    const resolves = []
-    for(let i = 0; i < chunks.length; i++){
-      resolves.push(chunks[i][0])
-    }
-
-    for(let moduleid in modules){
-      // cachedModules
-    }
+//   webpack_require.e = function(chunkid){
+//     // const installedChunks = {}
+//     const promises = []
+//     if(installedChunks[chunkid] === 0) return
+//     const promise = new Promise((resolve, reject) => {
+//       installedChunks[chunkid] = [resolve, reject, promise]
+//     })
+//     promises.push(promise)
+//     return Promise.all(promises)
+//   }
 
 
-    while(resolves.length){
-      resolves.shift()()
-    }
-  } 
+//   window['webpackJsonpCallback'] = window['webpackJsonpCallback'] = []
+//   webpackJsonpCallback.push = function(chunks = [], modules = {}){
+//     const resolves = []
+//     for(let i = 0; i < chunks.length; i++){
+//       resolves.push(chunks[i][0])
+//     }
+
+//     for(let moduleid in modules){
+//       // cachedModules
+//     }
 
 
-  return webpack_require('./path/to/entry')
-})({
-'./your/path/to/module': function(module, webpack_exports, webpack_require){
-  'use strict'
-  // ...
-}
-})
+//     while(resolves.length){
+//       resolves.shift()()
+//     }
+//   } 
+
+
+//   return webpack_require('./path/to/entry')
+// })({
+// './your/path/to/module': function(module, webpack_exports, webpack_require){
+//   'use strict'
+//   // ...
+// }
+// })
 
 
 class VueRouter{
@@ -338,3 +338,36 @@ const retryAjax = function(ajax, count = 3){
   }
   return sendAjax()
 }
+
+
+const deepClone = function(target, hash = new WeakMap()){
+  if(typeof target !== 'object' || target === null) return
+  if(hash.has(target)) return hash.get(target)
+  let clone = Array.isArray(target) ? [] : {}
+  hash.set(target, clone)
+  for(let key in target){
+    if(target.hasOwnProperty(key)){
+      if(typeof target[key] === 'object'){
+        clone[key] = deepClone(target[key], hash)
+      }else{
+        clone[key] = target[key]
+      }
+    } 
+  }
+
+}
+
+const diffObject = function(obj1, obj2, cache = []){
+  for(let key in obj1){
+    if(obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)){
+      if(JSON.stringify(obj1[key]) !== JSON.stringify(obj2[key])){
+        cache.push(key)
+        console.log(`${cache.join('->')}值不一样`)
+      }
+      if(typeof obj1[key] === 'object' && typeof obj2[key] === 'object'){
+        diffObject(obj1[key], obj2[key], cache)
+      }
+    }
+  }
+}
+diffObject({a: 1, b: {c: 2}}, {a: 2, b: {c: 2}})
