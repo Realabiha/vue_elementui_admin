@@ -6,17 +6,17 @@ module.exports = {
       {
         useBuiltIns: 'usage',
         corejs: '3',
-      }
-    ]
-  ],
-  plugins:  [
-    [
-      "component",
-      {
-        "libraryName": "element-ui",
-        "styleLibraryName": "theme-chalk",
-      }
+      },
     ],
-    "@babel/plugin-transform-runtime",
-  ]
+  ],
+  plugins: [
+    // [
+    //   "component",
+    //   {
+    //     "libraryName": "element-ui",
+    //     "styleLibraryName": "theme-chalk",
+    //   }
+    // ],
+    '@babel/plugin-transform-runtime',
+  ],
 }
