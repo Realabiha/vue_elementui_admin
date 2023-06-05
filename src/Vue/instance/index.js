@@ -70,23 +70,88 @@ export function extend(options = {}) {
     return Sub
 }
 
-export function mixin() {
-
+/*
+    策略模式合并，不同的属性采用不同的合并方式
+    生命周期  callHook 转成数组 vm.$options.hook = [f,f,f]
+    其他属性 Parent || Children Parent & Children
+*/
+export function mixin(data) {
+    let origin = Vue.options
+    const mergeOptions = data => Object.assign(origin, data)
+    Vue.options = mergeOptions(data)
+    return Vue
 }
-export function use() {
-
+/*
+    Vue插件可以是个函数
+    也可以是个带instal方法的对象
+    缓存已安装的插件
+*/
+export function use(plugin) {
+    const plugins = Vue._installedPlugins || (Vue._installedPlugins = [])
+    if (plugins.includes(plugin)) return
+    typeof plugin === 'function' ? plugin(Vue) : plugin.apply(Vue)
+    plugins.push(plugin)
+    return Vue
 }
+/*
+    根据是否传入配置对象
+    没传返回指定name的构造函数
+    传了注册指定name的构造函数
+*/
 export function component(name, options) {
-
+    if (options) {
+        const Constructor = Vue.extend(options)
+        Vue.options.components[name] = Constructor
+        return Constructor
+    }
+    return Vue.options.components[name]
 }
-export function filter() {
-
+export function filter(name, handler) {
+    if (handler) {
+        Vue.options.filter[name] = handler
+        return
+    }
+    return Vue.options.filter[name]
 }
-export function directive() {
-
+export function directive(name, defination) {
+    if (defination) {
+        Vue.options.directive[name] = defination
+        return
+    }
+    return Vue.options.directive[name]
 }
-export function nextTick() {
 
+
+/*
+    异步api检测 微任务优先于宏任务
+    pending标记 当前的异步任务有没有执行完毕，一次只能执行一个异步任务
+    如果没有传入回调且支持promise则返回一个promise
+*/
+let pending = false
+const callbacks = [watcher, watcher, callback]
+let _resolve
+function flushCallback() {
+    pending = false
+    const copies = callbacks.slice(0)
+    copies.forEach(callback)
+    callbacks.length = 0
+}
+export function nextTick(vm, callback) {
+    if (pending) return
+    pending = true
+    callback
+        ? callbacks.push(callback.bind(vm))
+        : callbacks.push(_ => _resolve(vm))
+
+    if (typeof Promise === 'function') {
+        Promise.resolve().then(flushCallback)
+    }
+    setTimeout(flushCallback)
+    if (!callback && typeof Promise === 'function') {
+        return new Promise((resolve, reject) => {
+            _resolve = resolve
+        })
+    }
 }
 
 initGlobalAPI(Vue)

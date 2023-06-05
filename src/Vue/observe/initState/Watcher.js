@@ -61,6 +61,7 @@ class Watcher {
   }
   run() {
     const value = this.value
+    // callback || updateComponent
     const newValue = this.get()
     this.cb.call(this.vm, newValue, value)
     console.log(`旧值`, value)

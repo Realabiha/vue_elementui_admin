@@ -103,6 +103,8 @@ export function set(data, key, value) {
         defineReactive(ob.value, key, value)
       }
     }
+    // 通知视图更新 ob ? dep defineReactive childOb
+    ob.dep.notify()
   }
   return value
 }
