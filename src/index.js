@@ -1,44 +1,11 @@
-import Vue from 'vue'
-import App from './app.vue'
-import VueRouter from 'vue-router';
-// import VueRouter from './vueRouter'
-import Home from './components/home/index.vue'
-import About from './components/about/index.vue'
-// import Dialog from './components/dialog/index.vue'
+import Vue from './Vue/instance'
+const vm = new Vue({ data: { a: 1, b: [2, { c: 3 }] } })
+vm.b.push({ d: [5, { e: 6 }] })
+vm.a = []
+vm.$set(vm.b[1], 'f', [])
+vm.b[1].f.push(4)
 
-// const DialogCtr = Vue.extend(Dialog)
-// const DialogIns = new DialogCtr({props: {show: true}}).$mount()
-// document.body.appendChild(DialogIns.$el)
+vm.$set(vm.b[1].f, '2', 7)
 
-// DialogIns.alert('hahaha')
-
-
-
-Vue.use(VueRouter)
-
-const router = new VueRouter({
-  routes: [
-    {
-      path: '/',
-      redirect: '/home/1'
-    },
-    {
-      path: '/home/:id',
-      component: Home
-    },
-    {
-      path: '/about/:id',
-      component: About
-    },
-  ]
-})
-
-
-new Vue({
-  router,
-  render(h) {
-    return (
-       h(App)
-    );
-  },
-}).$mount('#sykj')
+console.dir(vm)
+console.dir(Vue)
