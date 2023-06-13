@@ -56,8 +56,11 @@ class Watcher {
 
       执行完get方法，计算属性watcher出栈，栈顶为当前组件渲染watcher
     */
-    this.value = this.get()
-    this.dirty = false
+    if (this.dirty) {
+      this.value = this.get()
+      this.dirty = false
+    }
+    return this.value
   }
   run() {
     const value = this.value
