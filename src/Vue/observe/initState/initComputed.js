@@ -21,13 +21,13 @@ export default function (vm, options) {
 function wrapComputedGetter(vm, key, getter) {
   return _ => {
     const watcher = vm._computedWatchers[key]
-    const value = getter.call(vm)
+    // const value = getter.call(vm)
     if (watcher) {
       watcher.evaluate()
     }
     if (Dep.target) {
       watcher.depend()
     }
-    return value
+    return watcher.value
   }
 }

@@ -1,3 +1,5 @@
+import Vue from 'vue'
+import App from './app'
 // import { test } from './workers/test.script'
 // import Vue from './Vue/instance'
 // const vm = new Vue({ data: { a: 1, b: [2, { c: 3 }] } })
@@ -15,20 +17,29 @@
 // console.log(import.meta.url)
 
 
-const testWorker = new Worker(new URL('./workers/test.worker.js', import.meta.url))
+// const testWorker = new Worker(new URL('./workers/test.worker.js', import.meta.url))
 
 
-const input = document.createElement('input')
-input.setAttribute('type', 'file')
-input.onchange = function (e) {
-  // console.log(e)
-  const file = e.target.files[0]
-  testWorker.postMessage(file)
-  for (let i = 0; i < 100; i++) {
-    console.log(i)
-  }
-}
-document.body.appendChild(input)
-testWorker.onmessage = function (e) {
-  console.log(e.data, 'data')
-}
+// const input = document.createElement('input')
+// input.setAttribute('type', 'file')
+// input.onchange = function (e) {
+//   // console.log(e)
+//   const file = e.target.files[0]
+//   testWorker.postMessage(file)
+//   for (let i = 0; i < 100; i++) {
+//     console.log(i)
+//   }
+// }
+// document.body.appendChild(input)
+// testWorker.onmessage = function (e) {
+//   console.log(e.data, 'data')
+// }
+
+new Vue({
+  data() {
+    return {
+      msg: 'hello world'
+    }
+  },
+  render(h) { return h(App) }
+}).$mount('#sykj')
