@@ -1,11 +1,12 @@
 module.exports = {
-  sourceType: 'unambiguous',
+  // sourceType: 'unambiguous',
   presets: [
     [
       '@babel/preset-env',
       {
         useBuiltIns: 'usage',
         corejs: '3',
+        modules: false
       },
     ],
   ],

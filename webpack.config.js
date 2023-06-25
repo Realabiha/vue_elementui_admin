@@ -153,6 +153,7 @@ module.exports = (env, options) => {
           },
         },
       },
+      usedExports: true,
     },
     externals: {
       vue: 'Vue',
