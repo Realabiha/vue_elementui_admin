@@ -5,7 +5,8 @@ const WebpackBundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const { TITLE } = require('./src/constant')
+// const { TITLE } = require('./src/constant')
+const TITLE = 'ui'
 
 const path = require('path')
 
@@ -38,7 +39,7 @@ module.exports = (env, options) => {
         />
       </head>
       <body>
-        <div id="sykj"></div>
+        <div id="app"></div>
       </body>
     </html>
     `,
@@ -53,23 +54,13 @@ module.exports = (env, options) => {
   ]
 
   return {
-    entry: './src/index.js',
+    entry: ['./src/index.js', './src/index2.js'],
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'js/[name].js',
       clean: true,
     },
     resolve: {
-      alias: {
-        '@/imgs': path.resolve(__dirname, 'src/assets/imgs'),
-        '@/css': path.resolve(__dirname, 'src/assets/css'),
-        '@/js': path.resolve(__dirname, 'src/assets/js'),
-        '@/utils': path.resolve(__dirname, 'src/utils'),
-        '@/components': path.resolve(__dirname, 'src/components'),
-        '@/filters': path.resolve(__dirname, 'src/filters'),
-        '@/directives': path.resolve(__dirname, 'src/directives'),
-        '@/store': path.resolve(__dirname, 'src/store'),
-      },
       extensions: ['.js', '.scss', '.css', '.vue'],
     },
     module: {

@@ -1,8 +1,8 @@
 <template>
-  <h1>hello world</h1>
+  <div>test</div>
 </template>
 <script>
 export default {
-  name: "App"
+  name: "Test"
 };
 </script>

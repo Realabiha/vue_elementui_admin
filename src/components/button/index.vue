@@ -1,8 +1,8 @@
 <template>
-  <h1>hello world</h1>
+  <button>按钮</button>
 </template>
 <script>
 export default {
-  name: "App"
+  name: "Button"
 };
 </script>
