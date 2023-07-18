@@ -18,31 +18,17 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item
-          label="账号"
-          prop="account"
-        >
+        <el-form-item label="账号" prop="account">
           <el-input v-model="ruleForm.account"></el-input>
         </el-form-item>
-        <el-form-item
-          label="密码"
-          prop="pass"
-        >
-          <el-input
-            type="password"
-            v-model="ruleForm.pass"
-            autocomplete="off"
-          ></el-input>
+        <el-form-item label="密码" prop="pass">
+          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
         </el-form-item>
         <!-- <el-form-item label="确认密码" prop="checkPass">
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
-      </el-form-item> -->
+        </el-form-item>-->
         <el-form-item>
-          <el-button
-            type="primary"
-            @click="submitForm('ruleForm')"
-            >登录</el-button
-          >
+          <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
           <el-tooltip
             class="item"
@@ -71,22 +57,22 @@
 }
 </style>
 <script>
-import CopyRight from '@/components/copyright/index'
-import constant from '../../constant'
-import { SET_USERINFO_ACTION } from '@/store/userInfo/type'
-import { SET_DYNAMICROUTE_ACTION } from '@/store/route/type'
+import CopyRight from "@/components/copyright/index";
+import constant from "../../constant";
+import { SET_USERINFO_ACTION } from "@/store/userInfo/type";
+import { SET_DYNAMICROUTE_ACTION } from "@/store/route/type";
 
 export default {
-  name: 'Login',
+  name: "Login",
   components: {
-    'copy-right': CopyRight,
+    "copy-right": CopyRight
   },
   data() {
     const checkAccount = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('账号不能为空'))
+        return callback(new Error("账号不能为空"));
       }
-      callback()
+      callback();
       // setTimeout(() => {
       //   if (!Number.isInteger(value)) {
       //     callback(new Error('请输入数字值'));
@@ -98,94 +84,97 @@ export default {
       //     }
       //   }
       // }, 1000);
-    }
+    };
     const validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
+      if (value === "") {
+        callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass')
+        if (this.ruleForm.checkPass !== "") {
+          this.$refs.ruleForm.validateField("checkPass");
         }
-        callback()
+        callback();
       }
-    }
+    };
     const validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
       } else if (value !== this.ruleForm.pass) {
-        callback(new Error('两次输入密码不一致!'))
+        callback(new Error("两次输入密码不一致!"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       ruleForm: {
-        pass: '',
+        pass: "",
         // checkPass: '',
-        account: '',
+        account: ""
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: 'blur' }],
+        pass: [{ validator: validatePass, trigger: "blur" }],
         // checkPass: [
         //   { validator: validatePass2, trigger: 'blur' }
         // ],
-        account: [{ validator: checkAccount, trigger: 'blur' }],
+        account: [{ validator: checkAccount, trigger: "blur" }]
       },
-      constant,
-    }
+      constant
+    };
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(async (valid) => {
+      this.$refs[formName].validate(async valid => {
         if (valid) {
           const map = {
-              user: 'user',
-              lawyer: 'lawyer',
-              admin: 'admin',
-              vistor: 'vistor',
+              user: "user",
+              lawyer: "lawyer",
+              admin: "admin",
+              vistor: "vistor"
             },
-            account = this.ruleForm.account
+            account = this.ruleForm.account;
 
+          // 模拟登录
           const userInfo = await {
-            isAdmin: map[account] == 'admin',
-            role: map[account] || 'vistor',
+            isAdmin: map[account] == "admin",
+            role: map[account] || "vistor",
             name: map[account],
-            token: 'asdqjweq123',
-          }
+            token: "asdqjweq123"
+          };
 
-          await this.$store.dispatch(SET_USERINFO_ACTION, userInfo)
+          await this.$store.dispatch(SET_USERINFO_ACTION, userInfo);
+          // 模拟请求权限信息
+          await this.$store.dispatch(SET_DYNAMICROUTE_ACTION, userInfo);
 
-          const redirect = function () {
+          const redirect = function() {
             const routes = {
-              admin: '/layout/welcome',
-              user: '/layout/welcome',
-              lawyer: '/layout/welcome',
-              vistor: '/layout/welcome',
-            }
+              admin: "/layout/welcome",
+              user: "/layout/welcome",
+              lawyer: "/layout/welcome",
+              vistor: "/layout/welcome"
+            };
 
             this.$router
               .push({ path: routes[userInfo.role] })
-              .catch((err) => console.log(err, 'err'))
-          }
+              .catch(err => console.log(err, "err"));
+          };
 
           // token过期登录后重定向到过期页
-          const path = this.$route.query.redirect
-          if (path) return this.$router.replace({ path })
+          const path = this.$route.query.redirect;
+          if (path) return this.$router.replace({ path });
           // 正常登录跳转
-          redirect.call(this)
+          redirect.call(this);
         } else {
           this.$notify({
-            title: '提示',
-            message: '登录失败',
-            type: 'error',
-            duration: 800,
-          })
+            title: "提示",
+            message: "登录失败",
+            type: "error",
+            duration: 800
+          });
         }
-      })
+      });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields()
-    },
-  },
-}
+      this.$refs[formName].resetFields();
+    }
+  }
+};
 </script>
