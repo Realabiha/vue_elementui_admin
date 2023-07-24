@@ -1,6 +1,9 @@
 <template>
-  <div id="sykj" style="color: red;">
+  <div id="sykj" style="color: red;" @input="handleInput">
     {{msg}}
+    <a href="#/login">子应用</a>
+    <!-- <component :is="'input'"></component> -->
+    <!-- <component :is="$options.components.Dice"></component> -->
     <!-- <button @click="onClick">{{txt}}</button> -->
     <!-- <h1 ref="h1" :class="flag ? 'showh1' : 'hideh1'">123</h1> -->
     <!-- <input type="file" @change="onChange" /> -->
@@ -60,12 +63,12 @@ h1 {
 }
 </style>
 <script>
-// import Dice from "./components/dice";
+import Dice from "./components/dice";
 // import Dialog from "./components/dialog";
 export default {
   name: "App",
   components: {
-    // Dice,
+    Dice
     // Dialog
   },
   data() {
@@ -79,6 +82,7 @@ export default {
   },
   beforeCreate() {},
   mounted() {
+    console.log(this, "this");
     // const els = Object.values(this.$refs);
     // els.forEach(el => this.move(el));
     // this.testCallback();
@@ -86,6 +90,9 @@ export default {
     setTimeout(_ => (this.msg = "HELLO WORLD"));
   },
   methods: {
+    handleInput(e) {
+      console.log(e.target.value);
+    },
     onChange(e) {
       console.log(e.target.files, "e");
     },

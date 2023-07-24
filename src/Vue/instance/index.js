@@ -1,4 +1,4 @@
-import initGlobalAPI from "../init/initGlobalapi"
+import initGlobalAPI from "../init/initGlobalAPI"
 import initProps from "../observe/initState/initProps"
 import initComputed from "../observe/initState/initComputed"
 function Vue(options) {

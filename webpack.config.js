@@ -1,10 +1,10 @@
-const {DefinePlugin} = require('webpack')
+const { DefinePlugin } = require('webpack')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 const WebpackBundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const {TITLE} = require('./src/constant')
+const { TITLE } = require('./src/constant')
 
 const path = require('path');
 
@@ -19,7 +19,7 @@ const plugins = [
   new MiniCssExtractPlugin({
     filename: 'css/[name].css'
   }),
-  new WebpackBundleAnalyzerPlugin({openAnalyzer: false})
+  new WebpackBundleAnalyzerPlugin({ openAnalyzer: false })
 ]
 
 
@@ -47,7 +47,7 @@ module.exports = (env, options) => {
           test: /\.css$/,
           use: [
             // MiniCssExtractPlugin.loader,
-            'style-loader', 
+            'style-loader',
             'css-loader'
           ]
         },
@@ -56,14 +56,14 @@ module.exports = (env, options) => {
           use: [
             MiniCssExtractPlugin.loader,
             // 'style-loader', 
-            'css-loader', 
+            'css-loader',
             {
               loader: 'sass-loader',
               options: {
                 // additionalData: '@import \'@/css/common.scss\';',
               }
             }
-          ]  
+          ]
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg)$/,
@@ -86,14 +86,14 @@ module.exports = (env, options) => {
     },
     plugins: [new DefinePlugin({
       NODE_ENV: JSON.stringify(options.mode)
-    }), ...plugins], 
+    }), ...plugins],
     devServer: {
       port: 8680,
       compress: true,
       // hot: true,
       proxy: {
         '/api': {
-          rewrite: {'/api': ''}
+          rewrite: { '/api': '' }
         }
       }
     },
