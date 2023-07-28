@@ -1,7 +1,12 @@
 <template>
   <div id="sykj" style="color: red;" @input="handleInput">
     {{msg}}
-    <a href="#/login">子应用</a>
+    <router-link to="/foo">foo</router-link>
+    <router-link to="/bar">bar</router-link>
+    <router-link to="/bar/a">bar/a</router-link>
+    <router-link to="/bar/b">bar/b</router-link>
+    <router-link to="/login">login</router-link>
+    <router-view></router-view>
     <!-- <component :is="'input'"></component> -->
     <!-- <component :is="$options.components.Dice"></component> -->
     <!-- <button @click="onClick">{{txt}}</button> -->

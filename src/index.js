@@ -1,7 +1,36 @@
 import Vue from 'vue'
 import App from './app'
-import './mini-qiankun/src'
+import VueRouter from './vueRouter'
+// import VueRouter from 'vue-router'
 
+Vue.use(VueRouter)
+
+const router = new VueRouter({
+  mode: 'hash',
+  routes: [
+    {
+      path: '/foo',
+      component: { render(h) { return h('h1', null, ['foo']) } }
+    },
+    {
+      path: '/bar',
+      component: { render(h) { return <div><h1>bar</h1><router-view></router-view></div> } },
+      children: [
+        {
+          path: 'a',
+          component: { render(h) { return h('h1', null, 'bar a') } }
+        },
+        {
+          path: 'b',
+          component: { render(h) { return h('h1', null, 'bar b') } }
+        }
+      ]
+    }
+  ]
+})
+
+import './mini-qiankun/src'
+import { Divider } from 'element-ui'
 // import { test } from './workers/test.script'
 // import Vue from './Vue/instance'
 // const vm = new Vue({ data: { a: 1, b: [2, { c: 3 }] } })
@@ -38,10 +67,12 @@ import './mini-qiankun/src'
 // }
 
 new Vue({
+  name: 'Root',
   data() {
     return {
       msg: 'hello world'
     }
   },
+  router,
   render(h) { return h(App) }
 }).$mount('#sykj')

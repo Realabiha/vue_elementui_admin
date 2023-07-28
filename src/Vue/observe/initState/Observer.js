@@ -84,6 +84,7 @@ function observe(data) {
   Vue.set
   不能给组件实例添加属性, 会被代理到_data, 访问返回undefined
   不能给组件实例root $data添加属性，共享引用
+  Avoid adding reactive properties to a Vue instance or its root $data
 */
 export function set(data, key, value) {
   if (typeof data === 'object' && data !== null) {
