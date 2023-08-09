@@ -15,8 +15,8 @@ methodsToPatch.forEach(method => {
       insert = args.slice(2)
     }
     console.log(`修改了${method}值为`, insert)
-    ob.array(args)
-    ob.dep.depend()
+    ob.array(insert)
+    ob.dep.notify()
     return result
   }
 })

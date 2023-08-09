@@ -52,6 +52,7 @@
     "axios": "^0.27.2",
     "core-js": "^3.22.4",
     "crypto-js": "^4.1.1",
+    "echarts": "^5.4.3",
     "element-ui": "2.15.8",
     "import-html-entry": "^1.14.6",
     "vue": "2.6.14",

@@ -2,9 +2,10 @@ import Vue from 'vue'
 import App from './app'
 import VueRouter from './vueRouter'
 // import VueRouter from 'vue-router'
+import Vuex from './Vuex'
+// import Vuex from 'vuex'
 
 Vue.use(VueRouter)
-
 const router = new VueRouter({
   mode: 'hash',
   routes: [
@@ -28,6 +29,61 @@ const router = new VueRouter({
     }
   ]
 })
+
+Vue.use(Vuex)
+const store = new Vuex.Store({
+  state: {
+    count: 0,
+  },
+  modules: {
+    who: {
+      state: {
+        name: 'abiha',
+      },
+      modules: {
+        old: {
+          state: {
+            age: 18
+          },
+          getters: {
+            myAge(state) {
+              return state.age + '_my'
+            }
+          },
+          mutations: {
+            syncAddAge(state, payload) {
+              state.age += payload
+            }
+          }
+        }
+      }
+    },
+    sex: {
+      state: {
+        male: true
+      }
+    }
+  },
+  getters: {
+    myCount(state) {
+      return state.count + '_my'
+    }
+  },
+  mutations: {
+    syncAddCount(state, payload) {
+      state.count += payload
+    }
+  },
+  actions: {
+    async asyncAddCount(context, payload) {
+      const res = await payload
+      setTimeout(_ => {
+        context.commit('syncAddCount', res)
+      }, 500)
+    }
+  }
+})
+
 
 import './mini-qiankun/src'
 import { Divider } from 'element-ui'
@@ -74,5 +130,7 @@ new Vue({
     }
   },
   router,
+  store,
   render(h) { return h(App) }
-}).$mount('#sykj')
+})
+  .$mount('#sykj')

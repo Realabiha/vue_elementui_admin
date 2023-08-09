@@ -37,10 +37,14 @@ class Observer {
 
 // get/set转换
 function defineReactive(data, key, value, cb) {
+  // Object.freeze
+  const keyDescripition = Object.getOwnPropertyDescriptor(data, key)
+  if (keyDescripition.configurable === false) return
+
   const dep = new Dep()
 
   // 递归深度监听
-  const ob = observe(value)
+  const ob = !shallow && observe(value)
 
   Object.defineProperty(data, key, {
     configurable: true,
@@ -58,6 +62,8 @@ function defineReactive(data, key, value, cb) {
         value = newValue
       }
       console.log(`设置了${key}值为`, value)
+      ob = observe(newValue)
+      dep.notify()
       return value
     }
   })
@@ -79,6 +85,8 @@ function observe(data) {
   1.新增属性不能被拦截 Vue.set
   2.删除属性不能被拦截 Vue.delete
   3.数组拦截需要重写其原型
+  4.未被冻结的对象和数组需要深度劫持
+  5.已劫持的属性修改的新值也需要深度劫持
 */
 /*
   Vue.set

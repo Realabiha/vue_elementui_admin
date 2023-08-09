@@ -1,8 +1,9 @@
 import { pushTarget, popTarget } from "./Dep"
 class Watcher {
-  constructor(vm, getter, cb, options) {
+  constructor(vm, expOrFn, cb, options) {
     this.vm = vm
-    this.getter = getter
+    // _ => vm.a.b.c
+    this.getter = parsePath(expOrFn)
     this.cb = cb
     this.lazy = options.lazy || false
     this.sync = options.sync || false
@@ -85,8 +86,8 @@ function queueWatcher(watcher) {
   queue.push(watcher)
 }
 
-export function watch(vm, getter, cb, options) {
-  const watcher = new Watcher(vm, getter, cb, options)
+export function watch(vm, expOrFn, cb, options) {
+  const watcher = new Watcher(vm, expOrFn, cb, options)
   return function () {
     watcher.teardown()
   }

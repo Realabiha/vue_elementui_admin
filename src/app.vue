@@ -1,11 +1,22 @@
 <template>
   <div id="sykj" style="color: red;" @input="handleInput">
-    {{msg}}
+    state: {{$store.state.count}}
+    getters: {{$store.getters.myCount}}
     <router-link to="/foo">foo</router-link>
     <router-link to="/bar">bar</router-link>
     <router-link to="/bar/a">bar/a</router-link>
     <router-link to="/bar/b">bar/b</router-link>
     <router-link to="/login">login</router-link>
+    <button @click="syncAdd">同步修改状态</button>
+    <button @click="asyncAdd">异步修改状态</button>
+    <h1>{{$store.getters.myAge}}</h1>
+    <h1>{{$store.state.who.old.age}}</h1>
+    <h1>{{tm}}</h1>
+    <Button type="success" round @click="btnClick">按钮</Button>
+    <Chart :width="width" :options="options" />
+
+    <Chart :width="width" :options="option1" />
+
     <router-view></router-view>
     <!-- <component :is="'input'"></component> -->
     <!-- <component :is="$options.components.Dice"></component> -->
@@ -20,17 +31,8 @@
     <router-view />-->
     <!-- <Dice /> -->
     <!-- <Dialog v-model="show" title="温馨提示" content="确认此操作吗？" /> -->
-    <!-- <Dialog v-model="show" title="公告" content="不做核酸了！" /> -->
-    <!-- <div class="box box1" ref="box">1</div>
-    <div class="box box2" ref="box2" style="left: 150px;top: 400px">2</div>
-    <div class="box box3" ref="box3" style="left: 150px; top: 80%;">3</div>
-    <div class="box box4" ref="box4" style="left: 250px; top: 60%;">4</div>
-    <div class="box box5" ref="box5" style="left: 350px; top: 60%;">5</div>
-    <div class="box box6" ref="box6" style="left: 250px; top: 80%;">6</div>
-    <div class="box box7" ref="box7" style="left: 150px; top: 70%;">7</div>
-    <div class="box box7" ref="box8" style="left: 100px; top: 30%;">8</div>
-    <div class="box box7" ref="box9" style="left: 450px; top: 4%;">9</div>
-    <div class="box box7" ref="box10" style="left: 650px; top: 20%;">10</div>-->
+    <Dialog v-model="show" title="公告" content="不做核酸了！" />
+    <Toast />
   </div>
 </template>
 <style lang="scss">
@@ -68,13 +70,52 @@ h1 {
 }
 </style>
 <script>
+const options = {
+  title: {
+    text: "600px"
+  },
+  tooltip: {},
+  xAxis: {
+    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+  },
+  yAxis: {},
+  series: [
+    {
+      name: "销量",
+      type: "bar",
+      data: [5, 20, 36, 10, 10, 20]
+    }
+  ]
+};
+const option1 = {
+  xAxis: {
+    type: "category",
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  },
+  yAxis: {
+    type: "value"
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: "line"
+    }
+  ]
+};
+
 import Dice from "./components/dice";
-// import Dialog from "./components/dialog";
+import Dialog from "./components/dialog";
+import Toast from "./components/toast";
+import Button from "./components/button";
+import Chart from "./components/chart";
 export default {
   name: "App",
   components: {
-    Dice
-    // Dialog
+    Dice,
+    Dialog,
+    Toast,
+    Button,
+    Chart
   },
   data() {
     return {
@@ -82,17 +123,23 @@ export default {
       nums: 1,
       txt: "销毁",
       flag: false,
-      msg: "hello world"
+      msg: "hello world",
+      width: "600px",
+      // 浅冻结
+      options: Object.freeze(options),
+      option1: Object.freeze(option1)
     };
   },
   beforeCreate() {},
   mounted() {
-    console.log(this, "this");
+    this.nums = { a: { b: 1 } };
+    console.log(this, "app this");
     // const els = Object.values(this.$refs);
     // els.forEach(el => this.move(el));
     // this.testCallback();
     // debugger;
     setTimeout(_ => (this.msg = "HELLO WORLD"));
+    this.updateOptions();
   },
   methods: {
     handleInput(e) {
@@ -162,10 +209,49 @@ export default {
     testCallback() {
       console.log("testCallback===");
       !this._isDestroyed && setTimeout(this.testCallback, 1000);
+    },
+    asyncAdd() {
+      this.$store.dispatch("asyncAddCount", 4);
+    },
+    syncAdd() {
+      this.$store.commit("syncAddCount", 10);
+      this.$store.commit("syncAddAge", 1);
+    },
+    async btnClick() {
+      console.log(this.options, "options app");
+      const res = await {};
+      this.width = Math.random(0, 1) * 400 + 600 + "px";
+    },
+    updateOptions() {
+      const options = {
+        ...this.options,
+        title: { text: "新标题" + Math.random() }
+      };
+      this.options = Object.freeze(options);
+      !this._isDestroyed && setTimeout(this.updateOptions, 1000);
     }
   },
-  destroyed() {
-    console.log(this, "destroyed");
-  }
+  computed: {
+    tm: {
+      get() {
+        console.log("computed");
+        return this.txt + this.msg;
+      },
+      set() {
+        console.log(this, "set");
+      }
+    }
+  },
+  watch: {
+    txt: {
+      handler() {
+        console.log("watch");
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  updated() {},
+  destroyed() {}
 };
 </script>
