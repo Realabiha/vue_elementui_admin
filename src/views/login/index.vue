@@ -140,7 +140,10 @@ export default {
             token: "asdqjweq123"
           };
 
-          await this.$store.dispatch(SET_USERINFO_ACTION, userInfo);
+          await this.$store.dispatch(
+            SET_USERINFO_ACTION,
+            Object.freeze(userInfo)
+          );
           // 模拟请求权限信息
           await this.$store.dispatch(SET_DYNAMICROUTE_ACTION, userInfo);
 

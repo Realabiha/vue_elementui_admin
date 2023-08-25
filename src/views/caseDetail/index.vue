@@ -1,6 +1,6 @@
 // 案件详情
 <template>
-  <div style="overflow: scroll;height: 100%;">
+  <el-col :span="10">
     <!-- <h3>拖拽排序</h3>
     <ul ref="wrap">
       <li
@@ -18,6 +18,7 @@
     </ul>-->
     <h3>拖拽上传</h3>
     <div
+      v-permission="'case_user_upload'"
       class="drop_container"
       style="width: 666px; height: 30rem; background: pink; border: 1px dashed"
       @dragenter.prevent="dragEnter"
@@ -25,9 +26,9 @@
       @dragover.prevent="dragOver"
       @drop.prevent="onDrop1"
     >
-      <span>拖到这里上传</span>
+      <el-button>拖到这里上传</el-button>
     </div>
-  </div>
+  </el-col>
 </template>
 <style lang="scss" scoped>
 .drop_container {
@@ -112,6 +113,7 @@ export default {
               console.log(`全部切片完成，hsah值${this.hash}`);
               return;
             }
+            // webworker或定时器 防止文件过大阻塞主线程
             setTimeout(_ => this.slice());
             // this.slice();
           };
@@ -170,7 +172,8 @@ export default {
               totalChunks: file.chunks.length,
               fileSize: file.size,
               fileHash: file.hash,
-              fileName: file.name
+              fileName: file.name,
+              chunkName: `${file.hash}_index`
             };
             formdata.append("file", data);
             return formdata;

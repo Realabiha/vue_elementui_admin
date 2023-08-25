@@ -1,8 +1,10 @@
 import Vue from 'vue'
-import permission from './permission'
+import { permission } from './permission'
 
-const useDirective = function(name, options){
-    Vue.directive(name, typeof options == 'function' ? options() : options)
+export const useDirective = function () {
+    Vue.directive('permission', permission)
+}
+export {
+    permission
 }
 
-useDirective('permisson', permission)

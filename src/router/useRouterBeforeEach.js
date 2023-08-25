@@ -31,44 +31,53 @@ const withRole = function ({ userInfo }) {
   return filter(deepClone(menuRoute))
 }
 export default function (store, router) {
-  // 在beforeEach钩子执行前获取vuex中的状态?
-  router.beforeEach(async (to, from, next) => {
-    console.log(from, 'beforeEach')
+  router.beforeEach((to, from, next) => {
     // 用户信息
     const { userInfo = null } = store.state.user
 
     // 动态路由
-    const { dynamicRoute = [] } = store.getters
+    // const { dynamicRoute = [] } = store.getters
+    const { dynamicRoute = _ => [] } = store.state.route
 
     // 登录信息
     const isLogin = function () {
       return !!userInfo
     }
+
     // 登录放行
     if (to.name === 'Login') return next()
 
     // 未登陆拦截
     if (!isLogin()) return next({ name: 'Login', replace: true })
 
-    /**
-     * 页面刷新动态路由重新添加
-     * 如果动态路由为空则会栈溢出
-     * beforeEach中使用addRoutes是无法添加的,因为这是访问路由之前的钩子,
-     * 你需要自己做判断,addRoutes过后重定向到访问的页面,再次访问就可以了,因为已经执行过addRoutes了
-     **/
-    if (to.matched.length < 1 && dynamicRoute.length) {
-      // 替换当前导航(会重新触发beforeEach)，此时addRoutes添加完成
-      dynamicRoute.forEach((route) => router.addRoute(route))
-      // return router.replace(to)
-      // router.push({...to, replace: true})
-      // return next()
+    console.log(dynamicRoute(), 'dynamicRoute')
+    console.log(userInfo, 'userInfo')
+    // 登陆没有添加动态路由
+    if (dynamicRoute().length) return next()
 
-      router.options.routes.push(...dynamicRoute)
-      // return next({ ...to, replace: true })
-      // return next()
-      return router.push({ ...to })
-    }
+    // 登录已添加动态路由
+    store
+      .dispatch(
+        SET_DYNAMICROUTE_ACTION,
+        userInfo
+      )
+      .then(dynamicRoute => next({ ...to })); // 添加成功后重定向到当前路由
+
+
+    // 添加动态路由
+    // if (to.matched.length < 1 && dynamicRoute.length) {
+    //   debugger
+    //   dynamicRoute.forEach((route) => router.addRoute(route))
+    //   router.options.routes.push(...dynamicRoute)
+    //   return next({ ...to })
+    // }
     // addRoutes添加完成放行
-    return next()
+    // return next()
+    // next()
+
+
+
+
+
   })
 }

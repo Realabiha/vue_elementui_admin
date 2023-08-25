@@ -163,6 +163,6 @@ module.exports = (env, options) => {
     cache: {
       type: 'filesystem',
     },
-    devtool: options.mode == 'development' ? 'cheap-source-map' : false,
+    devtool: options.mode == 'development' ? 'source-map' : false,
   }
 }

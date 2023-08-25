@@ -6,7 +6,7 @@ import useRouterOnError from './useRouterOnError'
 import withStore from '../store/withStore'
 
 /**
- * meta 路由信息  title 菜单名字 auth 权限级别 icon 菜单图标
+ * meta 路由信息  title 菜单名字 auth 权限级别 icon 菜单图标 btn 按钮权限
  * 
  * admin 超管可查看全部页面
  * user 管理员可查看对应页面
@@ -33,7 +33,7 @@ export const constantRoute = [
 export const menuRoute = [
   {
     meta: {
-      auth: ['admin', 'user', 'lawyer', 'vistor'], 
+      auth: ['admin', 'user', 'lawyer', 'vistor'],
       icon: 'el-icon-search',
       title: '一级菜单'
     },
@@ -41,56 +41,60 @@ export const menuRoute = [
     component: _ => import('../components/layout'),
     children: [
       {
-        meta: { 
-          auth: ['admin', 'user', 'lawyer', 'vistor'], 
+        meta: {
+          // 这些角色能访问该页面
+          auth: ['admin', 'user', 'lawyer', 'vistor'],
+          // 这个页面上按钮对应的权限
+          btn: ['home_user_get', 'home_user_put', 'home_user_del'],
           icon: 'el-icon-help',
-          title: '首页' 
-        },  
+          title: '首页',
+        },
         path: 'welcome',
         component: _ => import('../components/welcome'),
       },
       {
-        meta: { 
-          auth: ['admin', 'user'], 
+        meta: {
+          auth: ['admin', 'user'],
           icon: 'el-icon-user',
-          title: '列表' 
-        },  
+          title: '列表'
+        },
         path: 'caseList',
         component: _ => import('../views/caseList'),
       },
       {
-        meta: { 
-          auth: ['admin', 'user', 'lawyer'], 
+        meta: {
+          auth: ['admin', 'user', 'lawyer'],
+          btn: ['case_user_get', 'case_user_upload']
         },
         path: 'caseDetail/:id',
         component: _ => import('../views/caseDetail'),
       },
       {
-        meta: { 
+        meta: {
           auth: ['admin'],
           icon: 'el-icon-setting',
-          title: '权限' 
+          title: '权限'
         },
         path: 'role/',
         component: _ => import('../views/role'),
         redirect: '/layout/role/roleControl',
         children: [
           {
-            meta: { 
+            meta: {
               auth: ['admin'],
-              title: '权限列表' 
+              title: '权限列表'
             },
             path: 'roleControl',
             component: _ => import('../views/roleControl'),
-            beforeEnter(to, from, next){
-              if(to.path !== from.path) next()
+            beforeEnter(to, from, next) {
+              if (to.path !== from.path) next()
               console.log('beforeEnter')
             }
           },
           {
-            meta: { 
+            meta: {
               auth: ['admin'],
-              title: '新增帐户' 
+              title: '新增帐户'
             },
             path: 'addRole',
             component: _ => import('../views/addRole'),
@@ -99,14 +103,14 @@ export const menuRoute = [
       },
       {
         meta: {
-          auth: ['admin', 'user', 'lawyer'], 
+          auth: ['admin', 'user', 'lawyer'],
         },
         path: '404',
         component: () => import('../components/404')
       },
       {
         meta: {
-          auth: ['admin', 'user', 'lawyer'], 
+          auth: ['admin', 'user', 'lawyer'],
         },
         path: '*',
         redirect: '404'
@@ -116,8 +120,7 @@ export const menuRoute = [
 ]
 
 // 先挂载通用路由 登陆后挂载权限路由
-const routes = [...constantRoute]
-const router = new VueRouter({routes})
+const router = new VueRouter({ routes: constantRoute })
 
 Vue.use(VueRouter)
 

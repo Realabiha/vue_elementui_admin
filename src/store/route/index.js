@@ -41,29 +41,35 @@ const withRole = function (userInfo = null) {
 export default {
   state() {
     return {
-      dynamicRoute: storage.formatGetSessionStorage('dynamicRoute') || []
+      dynamicRoute: _ => []
     }
   },
   mutations: {
     [SET_DYNAMICROUTE_MUTATION](state, payload) {
-      storage.formatSetSessionStorage('dynamicRoute', payload)
-      state.dynamicRoute = payload
+      // storage.formatSetSessionStorage('dynamicRoute', payload)
+
+      // 避免动态路由被递归转换成响应式
+      state.dynamicRoute = _ => payload
+
+      router.options.routes.push(...payload)
+      payload.forEach(route => {
+        router.addRoute(route)
+      })
     },
     [DEL_DYNAMICROUTE_MUTATION](state, payload) {
-      storage.formatSetSessionStorage('dynamicRoute', [])
-      state.dynamicRoute = payload
+      // storage.formatSetSessionStorage('dynamicRoute', [])
+      state.dynamicRoute = _ => payload
     }
   },
   actions: {
-    async [SET_DYNAMICROUTE_ACTION](context, payload) {
-      await 1
-      const dynamicRoute = withRole(payload)
-      // router.addRoutes(dynamicRoute)  
-      // 有警告建议使用addRoute
-      // dynamicRoute.forEach(route => {
-      //   router.addRoute(route)
-      // })
-      context.commit(SET_DYNAMICROUTE_MUTATION, dynamicRoute)
+    [SET_DYNAMICROUTE_ACTION](context, payload) {
+      return new Promise((resolve, reject) => {
+        setTimeout(_ => {
+          const dynamicRoute = withRole(payload)
+          context.commit(SET_DYNAMICROUTE_MUTATION, dynamicRoute)
+          resolve(dynamicRoute)
+        })
+      })
     },
     [DEL_DYNAMICROUTE_ACTION](context, payload) {
       context.commit(DEL_DYNAMICROUTE_MUTATION, payload)

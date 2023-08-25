@@ -32,23 +32,29 @@ const withRole = function (state = {}) {
     }
     return withRole
   }
-  // JSON拷贝不了函数  使用递归拷贝
+  /**
+   * JSON拷贝限制  使用递归拷贝
+   * 对象中有时间类型的时候，序列化之后会变成字符串类型。
+   * 对象中有undefined和Function类型数据的时候，序列化之后会直接丢失。
+   * 对象中有NaN、Infinity和-Infinity的时候，序列化之后会显示 null。
+   * 对象循环引用的时候，会直接报错。
+   * */
   return filter(deepClone(menuRoute))
 }
 
 export default {
   state() {
     return {
-      userInfo: storage.formatGetSessionStorage('userInfo'),
+      userInfo: Object.freeze(storage.formatGetSessionStorage('userInfo')),
     }
   },
   // 刷新页面更新
   getters: {
-    dynamicRoute: (state) => {
-      const dynamicRoute = withRole(state)
-      // router.addRoutes(dynamicRoute)
-      return dynamicRoute
-    },
+    // dynamicRoute: (state) => {
+    //   const dynamicRoute = withRole(state)
+    //   // router.addRoutes(dynamicRoute)
+    //   return dynamicRoute
+    // },
   },
   mutations: {
     [SET_USERINFO_MUTATION](state, payload) {
