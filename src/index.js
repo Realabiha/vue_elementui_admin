@@ -4,6 +4,11 @@ import router from './router'
 import store from './store'
 import { useDirective } from './directives'
 import { useFilter } from './filters'
+// import Element from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css';
+// import '@/css/var.scss'
+
+// Vue.use(Element)
 
 useDirective()
 useFilter()

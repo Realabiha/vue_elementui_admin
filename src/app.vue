@@ -1,5 +1,7 @@
 <template>
-  <router-view></router-view>
+  <m-provider :skin="skin">
+    <router-view></router-view>
+  </m-provider>
 </template>
 <style lang="scss">
 @keyframes rotate {
@@ -49,15 +51,19 @@ body {
 }
 </style>
 <script>
+import Provider from "./components/provider";
 import Layout from "./components/layout";
 import { SET_DYNAMICROUTE_ACTION } from "./store/route/type";
 export default {
   name: "App",
   components: {
-    "m-layout": Layout
+    "m-layout": Layout,
+    "m-provider": Provider
   },
   data() {
-    return {};
+    return {
+      skin: "default-skin"
+    };
   },
   created() {
     // 刷新页面重新获取动态路由

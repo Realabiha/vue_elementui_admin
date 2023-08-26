@@ -39,6 +39,10 @@
             <el-button>账号</el-button>
           </el-tooltip>
         </el-form-item>
+
+        <el-form-item>
+          <el-input type="color" v-model="ruleForm.color" @change="changeSkin"></el-input>
+        </el-form-item>
       </el-form>
     </el-col>
     <!-- <copy-right></copy-right> -->
@@ -51,9 +55,9 @@
 .sykj-login_wrap {
   @include flex-column;
   width: 100%;
-  height: 100%;
   align-items: center;
-  background-color: #efefef;
+  height: 100%;
+  @include skin;
 }
 </style>
 <script>
@@ -108,7 +112,8 @@ export default {
       ruleForm: {
         pass: "",
         // checkPass: '',
-        account: ""
+        account: "",
+        color: ""
       },
       rules: {
         pass: [{ validator: validatePass, trigger: "blur" }],
@@ -177,6 +182,15 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    changeSkin() {
+      // const skin = document.documentElement.getAttribute("data-skin");
+      // const newSkin = skin === "default-skin" ? "second-skin" : "default-skin";
+      // document.documentElement.setAttribute("data-skin", newSkin);
+
+      document
+        .querySelector(":root")
+        .style.setProperty("--default-background-color", this.ruleForm.color);
     }
   }
 };

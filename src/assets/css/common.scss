@@ -5,22 +5,43 @@ $color-primary_2: #ffb301;
 $shadow-primary_1: rgba(0, 0, 0, 0.102);
 $color-primary_element: #409EFF;
 
+
+:root {
+  --default-background-color: pink;
+  --default-color: yellow;
+  --second-background-color: red;
+  --second-color: blue;
+}
+
 // 混入
-@mixin flex{
+@mixin flex {
   display: flex;
 }
-@mixin flex-column{
+
+@mixin flex-column {
   @include flex;
   flex-direction: column;
 }
 
-@mixin justify-content($position: flex-start){
+@mixin justify-content($position: flex-start) {
   @include flex;
   justify-content: $position;
   align-items: center;
 }
 
-@mixin box-shadow($color: $shadow-primary_1){
+@mixin box-shadow($color: $shadow-primary_1) {
   box-shadow: 0 2px 12px 0 #{$color};
 }
 
+// 换肤
+@mixin skin() {
+  [data-skin="default-skin"] & {
+    background-color: var(--default-background-color);
+    color: var(--default-color);
+  }
+
+  [data-skin="second-skin"] & {
+    background-color: var(--second-background-color);
+    color: var(--second-color);
+  }
+}

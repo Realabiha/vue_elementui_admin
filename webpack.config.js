@@ -16,32 +16,32 @@ module.exports = (env, options) => {
     new HtmlWebpackPlugin({
       // template: './public/index.html',
       templateContent: ({ htmlWebpackPlugin }) => `<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta
-          http-equiv="X-UA-Compatible"
-          content="IE=edge"
-        />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-        />
-        <title>${htmlWebpackPlugin.options.title}</title>
-        <script src="https://unpkg.com/vue@2.6.14/dist/vue${fixCDNUrl()}.js"></script>
-        <script src="https://unpkg.com/vue-router@3.6.5/dist/vue-router${fixCDNUrl()}.js"></script>
-        <script src="https://unpkg.com/vuex@3.6.2/dist/vuex${fixCDNUrl()}.js"></script>
-        <script src="https://unpkg.com/element-ui@2.15.8/lib/index.js"></script>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta
+            http-equiv="X-UA-Compatible"
+            content="IE=edge"
+          />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>${htmlWebpackPlugin.options.title}</title>
+          <script src="https://unpkg.com/vue@2.6.14/dist/vue${fixCDNUrl()}.js"></script>
+          <script src="https://unpkg.com/vue-router@3.6.5/dist/vue-router${fixCDNUrl()}.js"></script>
+          <script src="https://unpkg.com/vuex@3.6.2/dist/vuex${fixCDNUrl()}.js"></script>
+          <script src="https://unpkg.com/element-ui@2.15.8/lib/index.js"></script>
         <link
           rel="stylesheet"
           href="https://unpkg.com/element-ui@2.15.8/lib/theme-chalk/index.css"
         />
-      </head>
-      <body>
-        <div id="sykj"></div>
-      </body>
-    </html>
-    `,
+        </head>
+        <body>
+          <div id="sykj"></div>
+        </body>
+      </html>
+      `,
       title: TITLE,
       favicon: './public/favicon.svg',
     }),
@@ -145,12 +145,12 @@ module.exports = (env, options) => {
         name: 'common',
         minChunks: 1,
         cacheGroups: {
-          corejs: {
-            test: /[\\/]core-js[\\/]internals[\\/]/,
-            name: 'internals',
-            priority: 10,
-            reuseExistingChunk: true,
-          },
+          // corejs: {
+          //   test: /[\\/]core-js[\\/]internals[\\/]/,
+          //   name: 'internals',
+          //   priority: 10,
+          //   reuseExistingChunk: true,
+          // },
         },
       },
       usedExports: true,
