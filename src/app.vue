@@ -1,6 +1,7 @@
 <template>
-  <div id="sykj" style="color: red;" @input="handleInput">
-    state: {{$store.state.count}}
+  <div id="sykj">
+    <LongList></LongList>
+    <!-- state: {{$store.state.count}}
     getters: {{$store.getters.myCount}}
     <router-link to="/foo">foo</router-link>
     <router-link to="/bar">bar</router-link>
@@ -14,10 +15,9 @@
     <h1>{{tm}}</h1>
     <Button type="success" round @click="btnClick">按钮</Button>
     <Chart :width="width" :options="options" />
+    <Radio v-model="radio" :rule="rule" name="name" label="姓名">单选</Radio>-->
 
-    <Chart :width="width" :options="option1" />
-
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
     <!-- <component :is="'input'"></component> -->
     <!-- <component :is="$options.components.Dice"></component> -->
     <!-- <button @click="onClick">{{txt}}</button> -->
@@ -31,8 +31,8 @@
     <router-view />-->
     <!-- <Dice /> -->
     <!-- <Dialog v-model="show" title="温馨提示" content="确认此操作吗？" /> -->
-    <Dialog v-model="show" title="公告" content="不做核酸了！" />
-    <Toast />
+    <!-- <Dialog v-model="show" title="公告" content="不做核酸了！" /> -->
+    <!-- <Toast /> -->
   </div>
 </template>
 <style lang="scss">
@@ -70,44 +70,18 @@ h1 {
 }
 </style>
 <script>
-const options = {
-  title: {
-    text: "600px"
-  },
-  tooltip: {},
-  xAxis: {
-    data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-  },
-  yAxis: {},
-  series: [
-    {
-      name: "销量",
-      type: "bar",
-      data: [5, 20, 36, 10, 10, 20]
-    }
-  ]
-};
-const option1 = {
-  xAxis: {
-    type: "category",
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-  },
-  yAxis: {
-    type: "value"
-  },
-  series: [
-    {
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: "line"
-    }
-  ]
-};
-
 import Dice from "./components/dice";
 import Dialog from "./components/dialog";
 import Toast from "./components/toast";
 import Button from "./components/button";
 import Chart from "./components/chart";
+import Radio from "./components/radio";
+import LongList from "./components/longlist";
+import { confirm } from "./components/dialog/index2";
+import axios from "axios";
+
+let _start = 0;
+
 export default {
   name: "App",
   components: {
@@ -115,9 +89,28 @@ export default {
     Dialog,
     Toast,
     Button,
-    Chart
+    Chart,
+    Radio,
+    LongList
   },
   data() {
+    const options = {
+      title: {
+        text: "600px"
+      },
+      tooltip: {},
+      xAxis: {
+        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+      },
+      yAxis: {},
+      series: [
+        {
+          name: "销量",
+          type: "bar",
+          data: [5, 20, 36, 10, 10, 20]
+        }
+      ]
+    };
     return {
       show: true,
       nums: 1,
@@ -127,7 +120,15 @@ export default {
       width: "600px",
       // 浅冻结
       options: Object.freeze(options),
-      option1: Object.freeze(option1)
+      radio: "",
+      rule: {
+        name: {
+          type: "string",
+          required: true,
+          validator: (rule, value) => value === "muji",
+          message: "name is muji"
+        }
+      }
     };
   },
   beforeCreate() {},
@@ -218,17 +219,33 @@ export default {
       this.$store.commit("syncAddAge", 1);
     },
     async btnClick() {
-      console.log(this.options, "options app");
-      const res = await {};
+      let res;
+      try {
+        res = await confirm("弹窗内容");
+      } catch (error) {
+        res = error;
+      }
+
+      console.log(res, "res");
+
       this.width = Math.random(0, 1) * 400 + 600 + "px";
     },
-    updateOptions() {
+    async updateOptions() {
+      const { data } = await axios.get(
+        `/api?_start=${_start}&_end=${_start + 6}`
+      );
       const options = {
-        ...this.options,
-        title: { text: "新标题" + Math.random() }
+        series: {
+          name: "销量",
+          type: "bar",
+          data
+        }
       };
       this.options = Object.freeze(options);
-      !this._isDestroyed && setTimeout(this.updateOptions, 1000);
+      _start++;
+      if (_start >= 294) _start = 0;
+      if (this.$timer) clearTimeout(this.$timer);
+      this.$timer = !this._isDestroyed && setTimeout(this.updateOptions, 5000);
     }
   },
   computed: {
@@ -251,7 +268,9 @@ export default {
       deep: true
     }
   },
-  updated() {},
+  updated() {
+    console.log("updated");
+  },
   destroyed() {}
 };
 </script>

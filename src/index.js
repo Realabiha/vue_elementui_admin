@@ -85,8 +85,7 @@ const store = new Vuex.Store({
 })
 
 
-import './mini-qiankun/src'
-import { Divider } from 'element-ui'
+// import './mini-qiankun/src'
 // import { test } from './workers/test.script'
 // import Vue from './Vue/instance'
 // const vm = new Vue({ data: { a: 1, b: [2, { c: 3 }] } })

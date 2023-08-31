@@ -90,10 +90,11 @@ module.exports = (env, options) => {
     devServer: {
       port: 8680,
       compress: true,
-      // hot: true,
+      hot: true,
       proxy: {
         '/api': {
-          rewrite: { '/api': '' }
+          target: 'http://localhost:3000/line',
+          pathRewrite: { '^/api': '' }
         }
       }
     },
@@ -132,6 +133,6 @@ module.exports = (env, options) => {
     cache: {
       type: 'filesystem'
     },
-    devtool: options.mode == 'development' ? 'cheap-source-map' : false
+    devtool: options.mode == 'development' ? 'source-map' : false
   }
 }
