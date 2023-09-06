@@ -1,6 +1,16 @@
 <template>
   <div id="sykj">
-    <LongList></LongList>
+    <VisualList :height="678" :width="666" :total="300">
+      <template #default="{item}">
+        <div
+          :style="{
+          height: `${item % 2 ? 50 : 100}px`, 
+          color: '#000', 
+          background: `${item % 2 ? 'pink' : 'yellow'}`}"
+        >{{item}}</div>
+      </template>
+    </VisualList>
+    <!-- <LongList></LongList> -->
     <!-- state: {{$store.state.count}}
     getters: {{$store.getters.myCount}}
     <router-link to="/foo">foo</router-link>
@@ -15,7 +25,7 @@
     <h1>{{tm}}</h1>
     <Button type="success" round @click="btnClick">按钮</Button>
     <Chart :width="width" :options="options" />
-    <Radio v-model="radio" :rule="rule" name="name" label="姓名">单选</Radio>-->
+    <Input v-model="radio" :rule="rule" name="name" label="姓名">单选</Input>-->
 
     <!-- <router-view></router-view> -->
     <!-- <component :is="'input'"></component> -->
@@ -75,8 +85,9 @@ import Dialog from "./components/dialog";
 import Toast from "./components/toast";
 import Button from "./components/button";
 import Chart from "./components/chart";
-import Radio from "./components/radio";
+import Input from "./components/input";
 import LongList from "./components/longlist";
+import VisualList from "./components/visuallist";
 import { confirm } from "./components/dialog/index2";
 import axios from "axios";
 
@@ -90,8 +101,9 @@ export default {
     Toast,
     Button,
     Chart,
-    Radio,
-    LongList
+    Input,
+    LongList,
+    VisualList
   },
   data() {
     const options = {
@@ -131,7 +143,9 @@ export default {
       }
     };
   },
-  beforeCreate() {},
+  beforeCreate() {
+    console.log(111);
+  },
   mounted() {
     this.nums = { a: { b: 1 } };
     console.log(this, "app this");
@@ -139,8 +153,8 @@ export default {
     // els.forEach(el => this.move(el));
     // this.testCallback();
     // debugger;
-    setTimeout(_ => (this.msg = "HELLO WORLD"));
-    this.updateOptions();
+    // setTimeout(_ => (this.msg = "HELLO WORLD"));
+    // this.updateOptions();
   },
   methods: {
     handleInput(e) {
