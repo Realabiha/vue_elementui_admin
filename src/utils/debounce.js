@@ -1,10 +1,9 @@
 export const debounce = function (callback = _ => _, delay = 17, immediate = false) {
   let timer = null;
   return function (...args) {
-    const context = this
     // later也可以是一个箭头函数，这样就不用绑定this了
     const later = function () {
-      callback.apply(context, args)
+      callback.apply(this, args)
       clearTimeout(timer)
       timer = null
     }
@@ -18,5 +17,15 @@ export const debounce = function (callback = _ => _, delay = 17, immediate = fal
     // }
 
     timer = setTimeout(later, delay)
+  }
+}
+export const rafDebounce = function (callback) {
+  let lock = false
+  return function (...args) {
+    requestAnimationFrame(() => {
+      if (lock) return
+      callback.apply(this, args)
+      lock = false
+    })
   }
 }

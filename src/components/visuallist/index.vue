@@ -1,8 +1,8 @@
 <template>
   <div class="viewport" :style="{width:`${width}px`, height: `${height}px`}" @scroll="onScroll">
     <div class="container" :style="{height: `${scrollHeight}px`}">
-      <div class="views" :style="{transform: `translateY(${translateY}px)`}">
-        <div class="item" v-for="item in views" :key="item" ref="item">
+      <div class="views" :style="{transform: `translate3d(0, ${translateY}px, 0)`}" ref="views">
+        <div class="item" v-for="item in views" :key="item">
           <slot :item="item"></slot>
         </div>
       </div>
@@ -11,11 +11,11 @@
 </template>
 <style lang="scss" scoped>
 .viewport {
-  overflow: auto !important;
+  overflow: auto;
 }
 </style>
 <script>
-import { debounce } from "../../utils/debounce";
+import { debounce, rafDebounce } from "../../utils/debounce";
 export default {
   name: "VisualList",
   props: {
@@ -37,7 +37,7 @@ export default {
     },
     buffer: {
       type: Number,
-      default: 10
+      default: 5
     }
   },
   data() {
@@ -69,7 +69,8 @@ export default {
         //   .slice(0, this.start)
         //   .reduce((total, item) => total + item, 0);
 
-        const x = this.offsetHeights[this.start - this.buffer] || 0;
+        const x =
+          this.start === 0 ? 0 : this.offsetHeights[this.start - this.buffer];
         return x;
       }
     },
@@ -91,10 +92,10 @@ export default {
     views: {
       handler() {
         this.$nextTick(_ => {
-          const items = this.$refs.item.slice(
+          const items = Array.from(this.$refs.views.children).slice(
             this.itemHeights.length -
               this.start +
-              (this.start > 0 ? this.row : 0)
+              (this.start && this.buffer ? this.row : 0)
           );
           this.itemHeights.push(...items.map(item => item.offsetHeight));
           this.offsetHeights = items.reduce((prev, item) => {
@@ -108,7 +109,7 @@ export default {
     }
   },
   methods: {
-    onScroll: debounce(function(e) {
+    onScroll: rafDebounce(function(e) {
       const scrollTop = e.target.scrollTop;
 
       // 二分查找;

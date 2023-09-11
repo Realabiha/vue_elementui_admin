@@ -78,7 +78,9 @@
  *  module.exports = content
  * }
  * 
- * vue-loader 处理阶段：pitch-loader noamal-loader 预处理阶段：vue-loader-plugin
+ * vue-loader 
+ * 预处理阶段：vue-loader-plugin 重写module.rules规则
+ * 处理阶段：pitch-loader noamal-loader 
  * vue-loader-plugin 
  * 遍历配置文件的module.rules, 使用resourceQuery转换js模块
  * import script from "./index.vue?vue&type=script&lang=js&"
