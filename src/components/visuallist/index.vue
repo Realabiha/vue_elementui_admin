@@ -38,6 +38,12 @@ export default {
     buffer: {
       type: Number,
       default: 5
+    },
+    test: {
+      type: Object,
+      default() {
+        return null;
+      }
     }
   },
   data() {
@@ -46,6 +52,10 @@ export default {
       itemHeights: [],
       offsetHeights: []
     };
+  },
+  mounted() {
+    this.test = [];
+    console.log(this.$parent.rule);
   },
   computed: {
     views: {

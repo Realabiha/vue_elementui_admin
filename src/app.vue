@@ -1,6 +1,6 @@
 <template>
   <div id="sykj">
-    <VisualList :height="678" :width="666" :total="300">
+    <VisualList :height="678" :width="666" :total="300" :test="rule">
       <template #default="{item}">
         <div
           :style="{
@@ -52,7 +52,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background: #000;
+  // background: #000;
   overflow: hidden;
   .box {
     position: absolute;
