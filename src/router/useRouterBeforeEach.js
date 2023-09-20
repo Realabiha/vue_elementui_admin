@@ -52,10 +52,10 @@ export default function (store, router) {
 
     console.log(dynamicRoute(), 'dynamicRoute')
     console.log(userInfo, 'userInfo')
-    // 登陆没有添加动态路由
+    // 登录已添加动态路由
     if (dynamicRoute().length) return next()
 
-    // 登录已添加动态路由
+    // 登陆没有添加动态路由
     store
       .dispatch(
         SET_DYNAMICROUTE_ACTION,
